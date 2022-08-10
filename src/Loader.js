@@ -2,6 +2,8 @@ import {Config, TEXTURES} from "./index.js";
 
 export function Loader() {
 	/**
+	 * Loads the given sources into actual images.
+	 * 
 	 * @param	{...string}	Sources to load
 	 */
 	this.load = async (...sources) => {

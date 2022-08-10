@@ -5,8 +5,8 @@ import {GUI, TEXTURES} from "../index.js";
  * Image constructor extended from Component.
  * 
  * @constructor
- * @param	{array}		size		Width & height
- * @param	{string}	source		Image path
+ * @param	{array}		[size]		Width & height
+ * @param	{string}	[source]	Image path
  * @param	{array}		[uv=[0, 0]]	Image UVs
  */
 export function Image({size, source, uv = [0, 0]}) {
@@ -15,9 +15,15 @@ export function Image({size, source, uv = [0, 0]}) {
 	Object.assign(this, {size, source, uv});
 
 	this.compute = () => {
-		let [w, h] = this.size,
-			[lw, lh] = [this.layer.width / GUI.scale, this.layer.height / GUI.scale],
-			{x, y} = this.margin;
+		if (!this.size && TEXTURES[this.source]) {
+			let image = TEXTURES[this.source];
+
+			this.size = [image.width, image.height];
+		}
+
+		let {x, y} = this.margin,
+			[w, h] = this.size,
+			[lw, lh] = [this.layer.width / GUI.scale, this.layer.height / GUI.scale];
 
 		if (this.align.horizontal === "right") x = lw - w - x;
 		else if (this.align.horizontal === "center") x += (lw - w) / 2;

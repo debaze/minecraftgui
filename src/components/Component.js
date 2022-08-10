@@ -13,6 +13,4 @@ export function Component({align, margin = [0, 0], visible = true}) {
 	this.align = {horizontal, vertical};
 	this.margin = {x, y};
 	this.visible = visible;
-
-	horizontal = vertical = x = y = visible = undefined;
 };
