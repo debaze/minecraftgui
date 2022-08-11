@@ -6,12 +6,12 @@ const loader = new Loader();
 await loader.load(...Config.PRIMARY_SOURCES);
 await loader.load(...Config.SECONDARY_SOURCES);
 
-GUI.preferredScale = 1;
+GUI.preferredScale = 4;
 Utils.resize();
 
 const {char, color} = await (await fetch(Config.font)).json();
-Font.char = char;
-Font.color = color;
+Font.symbols = char;
+Font.colors = color;
 const layers = await (await fetch(Config.gui)).json();
 
 for (let layer of layers) {

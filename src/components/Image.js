@@ -7,7 +7,7 @@ import {TEXTURES} from "../index.js";
  * @constructor
  * @param	{array}		[size]		Width & height
  * @param	{string}	[source]	Image path
- * @param	{array}		[uv=[0, 0]]	Image UVs
+ * @param	{array}		[uv=[0, 0]]	Image UV
  */
 export function Image({size, source, uv = [0, 0]}) {
 	Component.call(this, ...arguments);
@@ -16,7 +16,7 @@ export function Image({size, source, uv = [0, 0]}) {
 
 	this.compute = () => {
 		if (!this.size && TEXTURES[this.source]) {
-			let image = TEXTURES[this.source];
+			const image = TEXTURES[this.source];
 
 			this.size = [image.width, image.height];
 		}
