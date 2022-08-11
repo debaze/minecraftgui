@@ -1,5 +1,5 @@
 import {Component} from "./Component.js";
-import {GUI, TEXTURES} from "../index.js";
+import {TEXTURES} from "../index.js";
 
 /**
  * Image constructor extended from Component.
@@ -21,17 +21,7 @@ export function Image({size, source, uv = [0, 0]}) {
 			this.size = [image.width, image.height];
 		}
 
-		let {x, y} = this.margin,
-			[w, h] = this.size,
-			[lw, lh] = [this.layer.width / GUI.scale, this.layer.height / GUI.scale];
-
-		if (this.align.horizontal === "right") x = lw - w - x;
-		else if (this.align.horizontal === "center") x += (lw - w) / 2;
-
-		if (this.align.vertical === "bottom") y = lh - h - y;
-		else if (this.align.vertical === "center") y += (lh - h) / 2;
-
-		Object.assign(this, {x, y});
+		this.computeDefault();
 	};
 
 	this.draw = () => {

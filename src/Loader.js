@@ -24,7 +24,7 @@ export function Loader() {
 			TEXTURES[source] = image;
 		}
 
-		console.info(`Loading finished (took ${((performance.now() - now) / 1000).toFixed(2)}s)`);
+		console.log(`Loading finished (took ${((performance.now() - now) / 1000).toFixed(2)}s)`);
 	};
 
 	/**

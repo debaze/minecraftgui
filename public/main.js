@@ -1,4 +1,4 @@
-import {GUI, TEXTURES, Loader, Layer, Component, Color, Utils} from "../src/index.js";
+import {GUI, TEXTURES, Loader, Layer, Component, Color, Font, Utils} from "../src/index.js";
 import Config from "./config.js";
 
 const loader = new Loader();
@@ -6,9 +6,12 @@ const loader = new Loader();
 await loader.load(...Config.PRIMARY_SOURCES);
 await loader.load(...Config.SECONDARY_SOURCES);
 
-GUI.preferredScale = 4;
+GUI.preferredScale = 1;
 Utils.resize();
 
+const {char, color} = await (await fetch(Config.font)).json();
+Font.char = char;
+Font.color = color;
 const layers = await (await fetch(Config.gui)).json();
 
 for (let layer of layers) {

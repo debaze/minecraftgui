@@ -10,5 +10,6 @@ export default {
 		"gui/title/minecraft.png",
 	],
 	gui: "assets/gui.json",
+	font: "assets/font.json",
 	white: "assets/textures/misc/white.png",
 };

@@ -57,10 +57,8 @@ export function Layer({size = [GUI.width, GUI.height], visible = true, backgroun
 	};
 
 	this.compute = () => {
-		this.canvas.style.backgroundColor = this.background.hex;
-
 		for (const component of this.components) {
-			component.compute();
+			component.visible && component.compute();
 		}
 
 		return this;
@@ -73,6 +71,8 @@ export function Layer({size = [GUI.width, GUI.height], visible = true, backgroun
 	};
 
 	this.draw = () => {
+		this.canvas.style.backgroundColor = this.background.hex;
+
 		for (const component of this.components) {
 			component.visible && component.draw();
 		}

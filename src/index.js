@@ -10,7 +10,13 @@ export const GUI = {
 	layers: new Set(),
 };
 
+export const Font = {};
+
 export const TEXTURES = new Set();
+
+export const Output = {
+	cantComputeUnlayeredComponent: "Unable to compute a component which doesn't belong to a layer.",
+};
 
 export {Loader} from "./Loader.js";
 export {Layer} from "./Layer.js";

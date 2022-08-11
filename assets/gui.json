@@ -1,16 +1,22 @@
 [{
 		"components": [{
 				"type": "Image",
+				"visible": false,
 				"align": ["center", "top"],
 				"margin": [-59, 30],
 				"size": [156, 44],
 				"source": "gui/title/minecraft.png"
 			}, {
 				"type": "Image",
+				"visible": false,
 				"align": ["center", "top"],
 				"margin": [78, 30],
 				"size": [118, 44],
 				"source": "gui/title/minecraft.png",
 				"uv": [1, 45]
+			}, {
+				"type": "Text",
+				"align": ["center", "center"],
+				"text": "Lorem ipsum"
 		}]
 }]
