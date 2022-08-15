@@ -2,34 +2,38 @@ import {GUI, TEXTURES, Loader, Layer, Component, Color, Font, Utils} from "../sr
 import Config from "./config.js";
 
 const loader = new Loader();
+await loader.load(...Config.PRIMARY_SOURCES, ...Config.SECONDARY_SOURCES);
 
-await loader.load(...Config.PRIMARY_SOURCES);
-await loader.load(...Config.SECONDARY_SOURCES);
+
+
+
 
 GUI.preferredScale = 4;
 Utils.resize();
 
-const {char, color} = await (await fetch(Config.font)).json();
-Font.symbols = char;
-Font.colors = color;
+const {symbols, colors} = await (await fetch(Config.font)).json();
+Object.assign(Font, {symbols, colors});
 const layers = await (await fetch(Config.gui)).json();
 
+
+
+
+
 for (let layer of layers) {
-	let newComponents = [];
+	layer.background = new Color(layer.background);
 
-	for (const component of layer.components) {
-		let type = component.type;
-		delete component.type;
+	// Construct layer components
+	for (const i in layer.components) {
+		const component = layer.components[i];
 
-		newComponents.push(new Component[type](component));
+		layer.components[i] = new Component[component.type](component);
+
+		if (layer.components[i] instanceof Component.Text) layer.components[i].format();
 	}
 
-	layer = new Layer({
-		background: new Color(0x202124),
-		components: newComponents,
-	});
-
-	layer.compute().draw();
+	layer = new Layer(layer);
+	layer.compute();
+	layer.visible && layer.draw();
 
 	addEventListener("resize", () => Utils.debounce(() => {
 		Utils.resize();

@@ -1,5 +1,36 @@
-[{
-		"components": [{
+[
+	{
+		"name": "mojang-loading-screen",
+		"visible": false,
+		"background": "0xef323d",
+		"components": [
+			{
+				"type": "Image",
+				"align": ["center", "center"],
+				"margin": [-128, 0],
+				"size": [256, 128],
+				"source": "gui/title/mojangstudios.png",
+				"scale": 0.5
+			}, {
+				"type": "Image",
+				"align": ["center", "center"],
+				"margin": [128, 0],
+				"size": [256, 128],
+				"source": "gui/title/mojangstudios.png",
+				"uv": [0, 256],
+				"scale": 0.5
+			}, {
+				"type": "Progress",
+				"align": ["center", "bottom"],
+				"margin": [0, 86],
+				"length": 536
+			}
+		]
+	}, {
+		"name": "main-menu",
+		"background": "0x000000",
+		"components": [
+			{
 				"type": "Image",
 				"visible": false,
 				"align": ["center", "top"],
@@ -17,6 +48,14 @@
 			}, {
 				"type": "Text",
 				"align": ["center", "center"],
-				"text": "lol"
-		}]
-}]
+				"padding": [1, 1, 1, 1],
+				"text": "Lorem ipsum dolor sit amet, §cconsectetur adipisicing elit, sed do §ueiusmod\ntempor incididunt ut §hlabore et§r dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation §hullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, §csunt in culpa qui officia deserunt mollit anim id est laborum.",
+				"text": "Lorem §c:cipsum.",
+				"fontSize": 1,
+				"letterSpacing": 1,
+				"lineSpacing": 1,
+				"boldWeight": 1
+			}
+		]
+	}
+]

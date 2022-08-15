@@ -9,31 +9,26 @@ import {GUI, Output} from "../index.js";
  * @param	{boolean}	[visible=true]	Visibility state
  */
 export function Component({align, margin = [0, 0], visible = true}) {
-	const
-		[horizontal, vertical] = align,
-		[x, y] = margin;
+	if (!align) return console.error(Output.needAlignment);
 
-	this.align = {horizontal, vertical};
-	this.margin = {x, y};
-	this.visible = visible;
+	Object.assign(this, {align, margin, visible});
 
 	/**
-	 * Computes the absolute component position, if it belongs to a layer.
-	 * 
-	 * @todo Optimize alignment conditions
+	 * Calculates the absolute component position from its alignment and its margin.
 	 */
-	this.computeDefault = () => {
+	this.computePosition = () => {
 		if (!this.layer) return console.error(Output.cantComputeUnlayeredComponent);
 
-		let {x, y} = this.margin,
-			[w, h] = this.size,
-			[lw, lh] = [this.layer.width / GUI.scale, this.layer.height / GUI.scale];
+		let [horizontal, vertical] = this.align,
+			[x, y] = this.margin,
+			w = this.layer.width / GUI.scale - this.size[0],
+			h = this.layer.height / GUI.scale - this.size[1];
 
-		if (this.align.horizontal === "right") x = lw - w - x;
-		else if (this.align.horizontal === "center") x += (lw - w) / 2;
+		if (horizontal === "right") x = w - x;
+		else if (horizontal === "center") x += w / 2;
 
-		if (this.align.vertical === "bottom") y = lh - h - y;
-		else if (this.align.vertical === "center") y += (lh - h) / 2;
+		if (vertical === "bottom") y = h - y;
+		else if (vertical === "center") y += h / 2;
 
 		Object.assign(this, {x, y});
 	};

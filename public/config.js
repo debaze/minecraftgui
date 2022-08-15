@@ -3,8 +3,8 @@ export default {
 	PRIMARY_SOURCES: [
 		"misc/white.png",
 		"font/ascii.png",
-		// To do: Add Mojang logo
-		"large.png", // For load speed tests
+		"gui/title/mojangstudios.png",
+		"large.png", // For loading speed tests
 	],
 	SECONDARY_SOURCES: [
 		"gui/title/minecraft.png",

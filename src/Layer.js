@@ -1,15 +1,18 @@
-import {GUI} from "./index.js";
+import {GUI, Output} from "./index.js";
 
 /**
  * Layer constructor.
  * 
  * @constructor
+ * @param	{string}	name							Layer name (must be unique)
  * @param	{array}		[size=[GUI.width, GUI.height]]	Width & height
  * @param	{boolean}	[visible=true]					Visibility state
  * @param	{Color}		background						Background color
  * @param	{array}		[components=[]]					Component list (can be managed later with add())
  */
-export function Layer({size = [GUI.width, GUI.height], visible = true, background, components = []}) {
+export function Layer({name, size = [GUI.width, GUI.height], visible = true, background, components = []}) {
+	if (!name) return console.error(Output.untitledLayer);
+
 	let [width, height] = size;
 
 	Object.assign(this, {width, height, background, visible});

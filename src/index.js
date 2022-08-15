@@ -11,9 +11,11 @@ export const GUI = {
 };
 
 export const Font = {
-	lineHeight: 8,
-	boldWeight: 1,
+	charHeight: 8,
+	strikethroughY: 3,
+	underlineY: 8,
 	formatter: {
+		prefix: "\u00a7",
 		bold: "b",
 		color: "c",
 		highlight: "h",
@@ -27,8 +29,12 @@ export const Font = {
 export const TEXTURES = new Set();
 
 export const Output = {
+	invalidHex: "Colors only support 6 digit hex codes.",
+	needAlignment: "Tried to instantiate a Component without the `alignment` option.",
+	untitledLayer: "A name must be provided when instantiating a layer.",
 	cantComputeUnlayeredComponent: "Unable to compute a component which doesn't belong to a layer.",
 	invalidText: "Received a non-string value for a Text component.",
+	invalidProgressLength: "Invalid progress bar length received (0 is not accepted).",
 };
 
 export {Loader} from "./Loader.js";

@@ -1,4 +1,9 @@
 body {
-	margin: 0;
+	margin: unset;
 	overflow: hidden;
+	background-color: #000;
+}
+
+canvas {
+	position: absolute;
 }
