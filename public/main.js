@@ -26,11 +26,14 @@ for (let layer of layers) {
 	for (const i in layer.components) {
 		let component = layer.components[i];
 
-		if (component.type === "text" && component.background) component.background = new Color(component.background);
-
 		layer.components[i] = new Component[component.type](component);
 
-		if (layer.components[i] instanceof Component.Text) layer.components[i].format();
+		component = layer.components[i];
+
+		if (component instanceof Component.Text) {
+			component.background = new Color(component.background);
+			component.format();
+		}
 	}
 
 	layer = new Layer(layer);

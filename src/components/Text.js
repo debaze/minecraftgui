@@ -151,7 +151,8 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 
 				switch (parsing.colorPrefixFor) {
 					case Font.formatter.color:
-						color ??= {
+						if (color) this.parts.color.push(color);
+						color = {
 							w: 0,
 							x,
 							y,
@@ -160,7 +161,8 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 
 						break;
 					case Font.formatter.highlight:
-						highlight ??= {
+						if (highlight) this.parts.highlight.push(highlight);
+						highlight = {
 							w: 0,
 							x,
 							y,
