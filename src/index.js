@@ -11,7 +11,7 @@ export const GUI = {
 };
 
 export const Font = {
-	charHeight: 8,
+	symbolHeight: 8,
 	strikethroughY: 3,
 	underlineY: 8,
 	formatter: {

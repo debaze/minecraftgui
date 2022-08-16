@@ -7,18 +7,19 @@ import {GUI, TEXTURES, Font, Output} from "../index.js";
  * 
  * @constructor
  * @param	{string}	[text=""]				Text string
+ * @param	{Color}		[background]			Text background color, including the padding
  * @param	{array}		[padding=[0, 0, 0, 0]]	Padding (the bottom padding is ignored by underlines)
  * @param	{number}	[fontSize=1]			Font size multiplier
  * @param	{number}	[letterSpacing=1]		Letter spacing value
  * @param	{number}	[lineSpacing=1]			Line spacing value
  * @param	{number}	[boldWeight=1]			Bold weight value (0 means the weight will be regular)
  */
-export function Text({text = "", padding = [0, 0, 0, 0], fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
+export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
 	Component.call(this, ...arguments);
 
 	if (typeof text !== "string") return console.error(Output.invalidText);
 
-	Object.assign(this, {size: [0, 0], text, padding, fontSize, letterSpacing, lineSpacing, boldWeight});
+	Object.assign(this, {padding, background, text, fontSize, letterSpacing, lineSpacing, boldWeight});
 
 	/**
 	 * Formats the text value of the component.
@@ -27,8 +28,9 @@ export function Text({text = "", padding = [0, 0, 0, 0], fontSize = 1, letterSpa
 		let chars = this.text.split(""),
 			{symbols} = Font,
 			colors = Object.values(Font.colors),
-			ch = Font.charHeight,
+			ch = Font.symbolHeight,
 			[pt, pr, pb, pl] = this.padding,
+			fs = this.fontSize,
 			hs = this.letterSpacing,
 			vs = this.lineSpacing,
 			bw = this.boldWeight,
@@ -285,12 +287,12 @@ export function Text({text = "", padding = [0, 0, 0, 0], fontSize = 1, letterSpa
 		// Inner size (text)
 		w = Math.max(x, w);
 		h = ch + y;
-		this.textSize = [w, h];
+		this.textSize = [w * fs, h * fs];
 
 		// Full size, including padding
 		w += pl + pr;
 		h += pt + pb;
-		this.size = [w, h];
+		this.size = [w * fs, h * fs];
 	};
 
 	this.compute = this.computePosition;
@@ -299,15 +301,15 @@ export function Text({text = "", padding = [0, 0, 0, 0], fontSize = 1, letterSpa
 		if (!this.chars?.length) return;
 
 		const
-			ch = Font.charHeight,
+			bw = this.textSize[0] * this.fontSize,
+			bh = (this.textSize[1] + 1) * this.fontSize,
+			ch = Font.symbolHeight,
 			{ctx} = this.layer,
 			fs = this.fontSize,
 			[pt, pr, pb, pl] = this.padding,
 			{x, y, chars} = this,
 			[w, h] = this.size;
-		let bw = this.textSize[0] * this.fontSize,
-			bh = (this.textSize[1] + 1) * this.fontSize,
-			buffer, bctx, symbol;
+		let buffer, bctx, symbol;
 
 		try {
 			buffer = new OffscreenCanvas(bw, bh);
@@ -320,73 +322,81 @@ export function Text({text = "", padding = [0, 0, 0, 0], fontSize = 1, letterSpa
 		bctx = buffer.getContext("2d");
 		bctx.imageSmoothingEnabled = false;
 
-		if (this.chars.length) {
+		if (chars.length) {
 			// Base chars
-			for (const char of this.chars) {
+			for (const char of chars) {
 				symbol = Font.symbols[char.symbol];
 
 				bctx.drawImage(
 					TEXTURES["font/ascii.png"],
 					...symbol.uv,
 					symbol.width,
-					Font.charHeight,
-					char.x * this.fontSize,
-					char.y * this.fontSize,
-					symbol.width * this.fontSize,
-					Font.charHeight * this.fontSize,
+					ch,
+					char.x * fs,
+					char.y * fs,
+					symbol.width * fs,
+					ch * fs,
 				);
 			}
 
-			// Bold
-			for (const i of this.parts.bold) {
-				const char = this.chars[i];
-				symbol = Font.symbols[char.symbol];
+			// Formatting operations
+			{
+				// Bold
+				let char;
+				for (const i of this.parts.bold) {
+					char = chars[i];
+					symbol = Font.symbols[char.symbol];
 
-				for (let weight = 1; weight <= this.boldWeight; weight++) {
-					bctx.drawImage(
-						TEXTURES["font/ascii.png"],
-						...symbol.uv,
-						symbol.width,
-						Font.charHeight,
-						(char.x + weight) * this.fontSize,
-						char.y * this.fontSize,
-						symbol.width * this.fontSize,
-						Font.charHeight * this.fontSize,
-					);
+					for (let weight = 1; weight <= this.boldWeight; weight++) {
+						bctx.drawImage(
+							TEXTURES["font/ascii.png"],
+							...symbol.uv,
+							symbol.width,
+							ch,
+							(char.x + weight) * fs,
+							char.y * fs,
+							symbol.width * fs,
+							ch * fs,
+						);
+					}
+				}
+
+				// Strikethrough
+				for (const part of this.parts.strikethrough) {
+					bctx.fillStyle = "#fff";
+					bctx.fillRect(part.x * fs, part.y * fs, part.w, fs);
+				}
+
+				// Underline
+				for (const part of this.parts.underline) {
+					bctx.fillStyle = "#fff";
+					bctx.fillRect(part.x * fs, part.y * fs, part.w, fs);
+				}
+
+				// Color
+				for (const part of this.parts.color) {
+					bctx.globalCompositeOperation = "source-atop";
+					bctx.fillStyle = part.color;
+					bctx.fillRect(part.x * fs, part.y * fs, part.w, (ch + 1) * fs);
+				}
+
+				// Highlight
+				for (const part of this.parts.highlight) {
+					bctx.globalCompositeOperation = "destination-over";
+					bctx.fillStyle = part.color;
+					bctx.fillRect(part.x * fs, part.y * fs, part.w, ch * fs);
 				}
 			}
-
-			// Strikethrough
-			for (const part of this.parts.strikethrough) {
-				bctx.fillStyle = "#fff";
-				bctx.fillRect(part.x * fs, part.y * fs, part.w, fs);
-			}
-
-			// Underline
-			for (const part of this.parts.underline) {
-				bctx.fillStyle = "#fff";
-				bctx.fillRect(part.x * fs, part.y * fs, part.w, fs);
-			}
-
-			// Color
-			for (const part of this.parts.color) {
-				bctx.globalCompositeOperation = "source-atop";
-				bctx.fillStyle = part.color;
-				bctx.fillRect(part.x * fs, part.y * fs, part.w, (ch + 1) * fs);
-			}
-
-			// Highlight
-			for (const part of this.parts.highlight) {
-				bctx.globalCompositeOperation = "destination-over";
-				bctx.fillStyle = part.color;
-				bctx.fillRect(part.x * fs, part.y * fs, part.w, ch * fs);
-			}
-
+			
 			// Layer draw
-			ctx.fillStyle = "#0077be";
-			ctx.fillRect(x, y, w, h);
-			ctx.clearRect(x + pl, y + pt, w - pl - pr, h - pt - pb);
 			ctx.drawImage(buffer, x + pl, y + pt);
+
+			// Optional background color
+			if (this.background) {
+				ctx.globalCompositeOperation = "destination-over";
+				ctx.fillStyle = this.background.hex;
+				ctx.fillRect(x, y, w, h);
+			}
 		}
 	};
 };

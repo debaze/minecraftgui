@@ -50,7 +50,7 @@
 				"align": ["center", "center"],
 				"padding": [1, 1, 1, 1],
 				"text": "Lorem ipsum dolor sit amet, §cconsectetur adipisicing elit, sed do §ueiusmod\ntempor incididunt ut §hlabore et§r dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation §hullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, §csunt in culpa qui officia deserunt mollit anim id est laborum.",
-				"text": "Lorem §c:cipsum.",
+				"text": "§c:aLorem §c:cipsum",
 				"fontSize": 1,
 				"letterSpacing": 1,
 				"lineSpacing": 1,

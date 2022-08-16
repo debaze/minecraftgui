@@ -24,7 +24,9 @@ for (let layer of layers) {
 
 	// Construct layer components
 	for (const i in layer.components) {
-		const component = layer.components[i];
+		let component = layer.components[i];
+
+		if (component.type === "text" && component.background) component.background = new Color(component.background);
 
 		layer.components[i] = new Component[component.type](component);
 
