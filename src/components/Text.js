@@ -6,20 +6,21 @@ import {GUI, TEXTURES, Font, Output} from "../index.js";
  * NOTE: Please avoid using floats for the arguments which require numbers. This can cause color spreading.
  * 
  * @constructor
- * @param	{string}	[text=""]				Text string
- * @param	{Color}		[background]			Text background color, including the padding
  * @param	{array}		[padding=[0, 0, 0, 0]]	Padding (the bottom padding is ignored by underlines)
+ * @param	{Color}		[background]			Text background color, including the padding
+ * @param	{string}	[text=""]				Text string
+ * @param	{number}	[dropShadow=true]		Text drop-shadow
  * @param	{number}	[fontSize=1]			Font size multiplier
  * @param	{number}	[letterSpacing=1]		Letter spacing value
  * @param	{number}	[lineSpacing=1]			Line spacing value
  * @param	{number}	[boldWeight=1]			Bold weight value (0 means the weight will be regular)
  */
-export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
+export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow = true, fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
 	Component.call(this, ...arguments);
 
 	if (typeof text !== "string") return console.error(Output.invalidText);
 
-	Object.assign(this, {padding, background, text, fontSize, letterSpacing, lineSpacing, boldWeight});
+	Object.assign(this, {padding, background, text, dropShadow, fontSize, letterSpacing, lineSpacing, boldWeight});
 
 	/**
 	 * Formats the text value of the component.
@@ -156,7 +157,7 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 							w: 0,
 							x,
 							y,
-							color: code.foreground,
+							color: code,
 						};
 
 						break;
@@ -166,7 +167,7 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 							w: 0,
 							x,
 							y,
-							color: code.foreground,
+							color: code,
 						};
 
 						break;
@@ -190,7 +191,7 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 						w: 0,
 						x,
 						y,
-						color: Font.colors.gold.foreground,
+						color: color.color,
 					};
 				}
 
@@ -201,7 +202,7 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 						w: 0,
 						x,
 						y,
-						color: Font.colors.gold.foreground,
+						color: color.color,
 					};
 				}
 
@@ -324,81 +325,92 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", fontSize = 
 		bctx = buffer.getContext("2d");
 		bctx.imageSmoothingEnabled = false;
 
-		if (chars.length) {
-			// Base chars
-			for (const char of chars) {
+		// Base chars
+		for (const char of chars) {
+			symbol = Font.symbols[char.symbol];
+
+			bctx.drawImage(
+				TEXTURES["font/ascii.png"],
+				...symbol.uv,
+				symbol.width,
+				ch,
+				char.x * fs,
+				char.y * fs,
+				symbol.width * fs,
+				ch * fs,
+			);
+		}
+
+		// Buffer formatting operations
+		{
+			// Bold
+			let char;
+			for (const i of this.parts.bold) {
+				char = chars[i];
 				symbol = Font.symbols[char.symbol];
 
-				bctx.drawImage(
-					TEXTURES["font/ascii.png"],
-					...symbol.uv,
-					symbol.width,
-					ch,
-					char.x * fs,
-					char.y * fs,
-					symbol.width * fs,
-					ch * fs,
-				);
-			}
-
-			// Formatting operations
-			{
-				// Bold
-				let char;
-				for (const i of this.parts.bold) {
-					char = chars[i];
-					symbol = Font.symbols[char.symbol];
-
-					for (let weight = 1; weight <= this.boldWeight; weight++) {
-						bctx.drawImage(
-							TEXTURES["font/ascii.png"],
-							...symbol.uv,
-							symbol.width,
-							ch,
-							(char.x + weight) * fs,
-							char.y * fs,
-							symbol.width * fs,
-							ch * fs,
-						);
-					}
-				}
-
-				// Strikethrough
-				for (const part of this.parts.strikethrough) {
-					bctx.fillStyle = "#fff";
-					bctx.fillRect(part.x * fs, part.y * fs, part.w, fs);
-				}
-
-				// Underline
-				for (const part of this.parts.underline) {
-					bctx.fillStyle = "#fff";
-					bctx.fillRect(part.x * fs, part.y * fs, part.w, fs);
-				}
-
-				// Color
-				for (const part of this.parts.color) {
-					bctx.globalCompositeOperation = "source-atop";
-					bctx.fillStyle = part.color;
-					bctx.fillRect(part.x * fs, part.y * fs, part.w, (ch + 1) * fs);
-				}
-
-				// Highlight
-				for (const part of this.parts.highlight) {
-					bctx.globalCompositeOperation = "destination-over";
-					bctx.fillStyle = part.color;
-					bctx.fillRect(part.x * fs, part.y * fs, part.w, ch * fs);
+				for (let weight = 1; weight <= this.boldWeight; weight++) {
+					bctx.drawImage(
+						TEXTURES["font/ascii.png"],
+						...symbol.uv,
+						symbol.width,
+						ch,
+						(char.x + weight) * fs,
+						char.y * fs,
+						symbol.width * fs,
+						ch * fs,
+					);
 				}
 			}
-			
+
+			// Strikethrough
+			for (const part of this.parts.strikethrough) {
+				bctx.fillStyle = "#fff";
+				bctx.fillRect(part.x * fs, part.y * fs, part.w * fs, fs);
+			}
+
+			// Underline
+			for (const part of this.parts.underline) {
+				bctx.fillStyle = "#fff";
+				bctx.fillRect(part.x * fs, part.y * fs, part.w * fs, fs);
+			}
+
+			// Color
+			bctx.globalCompositeOperation = "source-atop";
+			for (const part of this.parts.color) {
+				bctx.fillStyle = part.color.foreground;
+				bctx.fillRect(part.x * fs, part.y * fs, part.w * fs, (ch + 1) * fs);
+			}
+		}
+
+		// Layer draw
+		ctx.drawImage(buffer, x + pl, y + pt);
+		ctx.globalCompositeOperation = "destination-over";
+
+		// Drop-shadow
+		if (this.dropShadow) {
+			bctx.fillStyle = Font.colors.white.background;
+			bctx.fillRect(0, 0, bw, bh);
+
+			for (const part of this.parts.color) {
+				bctx.fillStyle = part.color.background;
+				bctx.fillRect(part.x * fs, part.y * fs, part.w * fs, (ch + 1) * fs);
+			}
+
 			// Layer draw
-			ctx.drawImage(buffer, x + pl, y + pt);
+			ctx.drawImage(buffer, x + pl + fs, y + pt + fs);
+		}
 
-			// Optional background color
-			if (this.background) {
-				ctx.globalCompositeOperation = "destination-over";
-				ctx.fillStyle = this.background.hex;
-				ctx.fillRect(x, y, w, h);
-			}
+		// Highlight
+		for (const part of this.parts.highlight) {
+			ctx.fillStyle = part.color.foreground;
+			ctx.fillRect(x + pl + part.x * fs, y + pt + part.y * fs, part.w * fs, ch * fs);
+		}
+
+		// Optional background color
+		if (this.background) {
+			ctx.fillStyle = this.background.hex;
+			ctx.fillRect(x, y, w, h);
 		}
 	};
 };

@@ -8,7 +8,7 @@ await loader.load(...Config.PRIMARY_SOURCES, ...Config.SECONDARY_SOURCES);
 
 
 
-GUI.preferredScale = 4;
+GUI.preferredScale = 2;
 Utils.resize();
 
 const {symbols, colors} = await (await fetch(Config.font)).json();
@@ -31,7 +31,7 @@ for (let layer of layers) {
 		component = layer.components[i];
 
 		if (component instanceof Component.Text) {
-			component.background = new Color(component.background);
+			component.background &&= new Color(component.background);
 			component.format();
 		}
 	}
