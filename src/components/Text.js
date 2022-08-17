@@ -387,24 +387,26 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow 
 		ctx.drawImage(buffer, x + pl, y + pt);
 		ctx.globalCompositeOperation = "destination-over";
 
-		// Drop-shadow
-		if (this.dropShadow) {
-			bctx.fillStyle = Font.colors.white.background;
-			bctx.fillRect(0, 0, bw, bh);
+		// Post-buffer formatting operations
+		{
+			// Drop-shadow
+			if (this.dropShadow) {
+				bctx.fillStyle = Font.colors.white.background;
+				bctx.fillRect(0, 0, bw, bh);
 
-			for (const part of this.parts.color) {
-				bctx.fillStyle = part.color.background;
-				bctx.fillRect(part.x * fs, part.y * fs, part.w * fs, (ch + 1) * fs);
+				for (const part of this.parts.color) {
+					bctx.fillStyle = part.color.background;
+					bctx.fillRect(part.x * fs, part.y * fs, part.w * fs, (ch + 1) * fs);
+				}
+
+				ctx.drawImage(buffer, x + pl + fs, y + pt + fs);
 			}
 
-			// Layer draw
-			ctx.drawImage(buffer, x + pl + fs, y + pt + fs);
-		}
-
-		// Highlight
-		for (const part of this.parts.highlight) {
-			ctx.fillStyle = part.color.foreground;
-			ctx.fillRect(x + pl + part.x * fs, y + pt + part.y * fs, part.w * fs, ch * fs);
+			// Highlight
+			for (const part of this.parts.highlight) {
+				ctx.fillStyle = part.color.foreground;
+				ctx.fillRect(x + pl + part.x * fs, y + pt + part.y * fs, part.w * fs, ch * fs);
+			}
 		}
 
 		// Optional background color

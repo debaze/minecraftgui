@@ -28,7 +28,7 @@
 		]
 	}, {
 		"name": "main-menu",
-		"background": "0x000000",
+		"background": "0xe8d3b6",
 		"components": [
 			{
 				"type": "Image",
@@ -48,8 +48,8 @@
 			}, {
 				"type": "Text",
 				"align": ["center", "center"],
-				"text": "Lorem ipsum dolor sit amet, §cconsectetur adipisicing elit, sed do §ueiusmod\ntempor incididunt ut §hlabore et§r dolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation §hullamco laboris nisi ut aliquip ex ea commodo\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\nproident, §csunt in culpa qui officia deserunt mollit anim id est laborum.",
-				"text": "Example text with drop-shadow",
+				"text": "§c:0Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et §h:edolore magna aliqua§r§c:0. Ut enim ad minim veniam,\nquis §snostrud exercitation§r§c:0 ullamco laboris nisi ut aliquip ex ea commodo\nconsequat.\n\nDuis aute §birure dolor§r§c:0 in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. §uExcepteur sint occaecat§r§c:0 cupidatat non\nproident, sunt in §c:dculpa§c:0 qui officia deserunt mollit anim id est laborum.",
+				"dropShadow": false,
 				"fontSize": 2
 			}
 		]
