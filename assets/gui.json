@@ -28,7 +28,6 @@
 		]
 	}, {
 		"name": "main-menu",
-		"visible": false,
 		"background": "0xe8d3b6",
 		"components": [
 			{
@@ -48,9 +47,17 @@
 				"uv": [1, 45]
 			}, {
 				"type": "Text",
+				"visible": false,
 				"align": ["center", "center"],
 				"text": "§c:0Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et §h:edolore magna aliqua§r§c:0. Ut enim ad minim veniam,\nquis §snostrud exercitation§r§c:0 ullamco laboris nisi ut aliquip ex ea commodo\nconsequat.\n\nDuis aute §birure dolor§r§c:0 in reprehenderit in voluptate velit esse\ncillum dolore eu fugiat nulla pariatur. §uExcepteur sint occaecat§r§c:0 cupidatat non\nproident, sunt in §c:dculpa§c:0 qui officia deserunt mollit anim id est laborum.",
 				"dropShadow": false,
+				"fontSize": 2
+			}, {
+				"type": "Link",
+				"align": ["left", "top"],
+				"margin": [0, 10],
+				"text": "Example link",
+				"textColor": "yellow",
 				"fontSize": 2
 			}
 		]

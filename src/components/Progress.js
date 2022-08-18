@@ -2,7 +2,7 @@ import {Component} from "./Component.js";
 import {Output} from "../index.js";
 
 /**
- * Progress constructor extended from Component.
+ * Progress component.
  * 
  * @constructor
  * @param	{number}	length		Progress bar length, in pixels (this value doesn't take the border in account!)
@@ -32,33 +32,22 @@ export function Progress({length, percent = 0}) {
 	};
 
 	this.advance = p => {
-		if (p === 0) return;
-
 		const
 			{ctx} = this.layer,
 			{x, y} = this,
-			[w, h] = this.size;
-
-		ctx.fillStyle = "#fff";
-
-		if (p > 0) {
-			ctx.fillRect(
+			[w, h] = this.size,
+			rect = [
 				x + 2 + this.length * (this.percent / 100),
 				y + 2,
 				this.length * (p / 100),
 				h - 4,
-			);
+			];
 
-			this.percent += p;
-		} else {
-			this.percent += p;
+		if (p > 0) {
+			ctx.fillStyle = "#fff";
+			ctx.fillRect(...rect);
+		} else ctx.clearRect(...rect);
 
-			ctx.clearRect(
-				x + 2 + this.length * (this.percent - p) / 100,
-				y + 2,
-				this.length * (p / 100),
-				h - 4,
-			);
-		}
+		this.percent += p;
 	};
 };

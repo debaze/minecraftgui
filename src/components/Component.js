@@ -1,7 +1,7 @@
 import {GUI, Output} from "../index.js";
 
 /**
- * Global component constructor.
+ * Global component.
  * 
  * @constructor
  * @param	{array}		align			Horizontal & vertical alignment
@@ -31,5 +31,33 @@ export function Component({align, margin = [0, 0], visible = true}) {
 		else if (vertical === "center") y += h / 2;
 
 		Object.assign(this, {x, y});
+	};
+
+	this.on = (event, callback) => {
+		const {layer} = this;
+
+		if (!layer) return console.error(Output.eventOnUnlayeredComponent);
+
+		switch (event) {
+			case "hover":
+				event = "mousemove";
+
+				break;
+			case "click":
+				event = "mousedown";
+
+				break;
+		}
+
+		layer.canvas.addEventListener(event, e => {
+			const
+				{scale} = GUI,
+				{x, y} = this,
+				[w, h] = this.size;
+
+			// console.log(e)
+			console.log("Component", (x + w) * scale, (y + h) * scale);
+			console.log("Event", e.x, e.y);
+		});
 	};
 };

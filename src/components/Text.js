@@ -2,14 +2,14 @@ import {Component} from "./Component.js";
 import {GUI, TEXTURES, Font, Output} from "../index.js";
 
 /**
- * Text constructor extended from Component.
+ * Text component.
  * NOTE: Please avoid using floats for the arguments which require numbers. This can cause color spreading.
  * 
  * @constructor
  * @param	{array}		[padding=[0, 0, 0, 0]]	Padding (the bottom padding is ignored by underlines)
  * @param	{Color}		[background]			Text background color, including the padding
  * @param	{string}	[text=""]				Text string
- * @param	{number}	[dropShadow=true]		Text drop-shadow
+ * @param	{boolean}	[dropShadow=true]		Text drop-shadow
  * @param	{number}	[fontSize=1]			Font size multiplier
  * @param	{number}	[letterSpacing=1]		Letter spacing value
  * @param	{number}	[lineSpacing=1]			Line spacing value
@@ -290,12 +290,12 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow 
 		// Inner size (text)
 		w = Math.max(x, w);
 		h = ch + y;
-		this.textSize = [w * fs, h * fs];
+		this.textSize = [w, h].map(s => s * fs);
 
 		// Full size, including padding
 		w += pl + pr;
 		h += pt + pb;
-		this.size = [w * fs, h * fs];
+		this.size = [w, h].map(s => s * fs);
 	};
 
 	this.compute = this.computePosition;

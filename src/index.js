@@ -14,6 +14,8 @@ export const Font = {
 	symbolHeight: 8,
 	strikethroughY: 3,
 	underlineY: 8,
+	letterSpacing: 1,
+	lineSpacing: 1,
 	formatter: {
 		prefix: "\u00a7",
 		bold: "b",
@@ -28,11 +30,20 @@ export const Font = {
 
 export const TEXTURES = new Set();
 
+export const TextBuffer = typeof OffscreenCanvas !== "undefined" ? new OffscreenCanvas(0, 0) : document.createElement("canvas");
+TextBuffer.bctx = TextBuffer.getContext("2d");
+TextBuffer.resize = (w, h) => {
+	TextBuffer.width = w;
+	TextBuffer.height = h;
+	TextBuffer.bctx.imageSmoothingEnabled = false;
+};
+
 export const Output = {
 	invalidHex: "Colors only support 6 digit hex codes.",
 	needAlignment: "Tried to instantiate a Component without the `alignment` option.",
 	untitledLayer: "A name must be provided when instantiating a layer.",
 	cantComputeUnlayeredComponent: "Unable to compute a component which doesn't belong to a layer.",
+	eventOnUnlayeredComponent: "Unable to register an event for this component, because it doesn't belong to a layer.",
 	invalidText: "Received a non-string value for a Text component.",
 	invalidProgressLength: "Invalid progress bar length received (0 is not accepted).",
 	invalidProgressPercent: "Invalid progress bar percentage value.",

@@ -2,7 +2,7 @@ import {Component} from "./Component.js";
 import {TEXTURES} from "../index.js";
 
 /**
- * Image constructor extended from Component.
+ * Image component.
  * 
  * @constructor
  * @param	{array}		[size]		Width & height
