@@ -35,6 +35,8 @@ export const Output = {
 	cantComputeUnlayeredComponent: "Unable to compute a component which doesn't belong to a layer.",
 	invalidText: "Received a non-string value for a Text component.",
 	invalidProgressLength: "Invalid progress bar length received (0 is not accepted).",
+	invalidProgressPercent: "Invalid progress bar percentage value.",
+	outOfRangeProgressPercent: "Progress bar percentage not between 0 and 100.",
 };
 
 export {Loader} from "./Loader.js";

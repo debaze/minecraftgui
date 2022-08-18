@@ -10,6 +10,8 @@ import {Output} from "../index.js";
  */
 export function Progress({length, percent = 0}) {
 	if (!length) return console.error(Output.invalidProgressLength);
+	if (typeof percent !== "number") return console.error(Output.invalidProgressPercent);
+	if (percent < 0 || percent > 100) return console.error(Output.outOfRangeProgressPercent);
 
 	Component.call(this, ...arguments);
 
@@ -23,9 +25,23 @@ export function Progress({length, percent = 0}) {
 			{x, y} = this,
 			[w, h] = this.size;
 
-		ctx.fillStyle = "white";
+		ctx.fillStyle = "#fff";
 		ctx.fillRect(x, y, w, h);
 		ctx.clearRect(x + 1, y + 1, w - 2, h - 2);
 		ctx.fillRect(x + 2, y + 2, this.length * (this.percent / 100), h - 4);
+	};
+
+	this.advance(p) => {
+		if (p > 0) {
+			ctx.fillStyle = "#fff";
+			ctx.fillRect(
+				x + 2 + this.length * (this.percent / 100),
+				y + 2,
+				this.length * (p / 100),
+				h + 4,
+			);
+		} else {
+			// To-do: negative percent
+		}
 	};
 };
