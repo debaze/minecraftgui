@@ -28,6 +28,7 @@
 		]
 	}, {
 		"name": "main-menu",
+		"visible": false,
 		"background": "0xe8d3b6",
 		"components": [
 			{

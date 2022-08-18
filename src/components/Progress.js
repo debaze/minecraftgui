@@ -21,7 +21,7 @@ export function Progress({length, percent = 0}) {
 
 	this.draw = () => {
 		const
-			ctx = this.layer.ctx,
+			{ctx} = this.layer,
 			{x, y} = this,
 			[w, h] = this.size;
 
@@ -31,17 +31,34 @@ export function Progress({length, percent = 0}) {
 		ctx.fillRect(x + 2, y + 2, this.length * (this.percent / 100), h - 4);
 	};
 
-	this.advance(p) => {
+	this.advance = p => {
+		if (p === 0) return;
+
+		const
+			{ctx} = this.layer,
+			{x, y} = this,
+			[w, h] = this.size;
+
+		ctx.fillStyle = "#fff";
+
 		if (p > 0) {
-			ctx.fillStyle = "#fff";
 			ctx.fillRect(
 				x + 2 + this.length * (this.percent / 100),
 				y + 2,
 				this.length * (p / 100),
-				h + 4,
+				h - 4,
 			);
+
+			this.percent += p;
 		} else {
-			// To-do: negative percent
+			this.percent += p;
+
+			ctx.clearRect(
+				x + 2 + this.length * (this.percent - p) / 100,
+				y + 2,
+				this.length * (p / 100),
+				h - 4,
+			);
 		}
 	};
 };

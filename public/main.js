@@ -46,3 +46,19 @@ for (let layer of layers) {
 		layer.compute().redraw();
 	}, 50));
 }
+
+
+let i = 30;
+let step = 2;
+let l = new Layer({name: "dev", background: new Color(0x000000)});
+let p = new Component.Progress({
+	align: ["center", "center"],
+	length: 400,
+	percent: i,
+});
+
+l.add(p).compute().draw();
+
+addEventListener("click", () => {
+	p.advance(step);
+});
