@@ -15,7 +15,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 
 	let [width, height] = size;
 
-	Object.assign(this, {width, height, background, visible});
+	Object.assign(this, {name, width, height, background, visible});
 
 	this.components = new Set();
 
@@ -89,5 +89,22 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 	this.add(...components);
 	document.body.appendChild(this.canvas);
 };
+
+export const HoverLayer = document.createElement("canvas");
+HoverLayer.ctx = HoverLayer.getContext("2d");
+HoverLayer.className = "hover";
+HoverLayer.stretch = (width = GUI.width, height = GUI.height) => {
+	Object.assign(HoverLayer, {width, height});
+	HoverLayer.ctx.imageSmoothingEnabled = false;
+
+	return this;
+};
+HoverLayer.cached = {
+	x1: 0,
+	x2: 0,
+	y1: 0,
+	y2: 0,
+};
+document.body.appendChild(HoverLayer);
 
 let visibilities = ["hidden", "visible"];

@@ -55,10 +55,15 @@
 			}, {
 				"type": "Link",
 				"align": ["left", "top"],
-				"margin": [0, 10],
+				"margin": [10, 10],
 				"text": "Example link",
 				"textColor": "yellow",
 				"fontSize": 2
+			}, {
+				"type": "Link",
+				"align": ["right", "bottom"],
+				"margin": [1, 1],
+				"text": "Copyright (C) 2022 Mojang Studios. Do not distribute!"
 			}
 		]
 	}

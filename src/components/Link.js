@@ -88,10 +88,6 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			);
 		}
 
-		if (this.hovered) {
-			bctx.fillRect(0, th - 2, tw, fs);
-		}
-
 		if (this.textColor) {
 			bctx.globalCompositeOperation = "source-atop";
 			bctx.fillStyle = this.textColor.foreground;
@@ -105,7 +101,21 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 
 		ctx.globalCompositeOperation = "destination-over";
 		ctx.drawImage(TextBuffer, x + fs, y + fs);
-		ctx.fillStyle = "orangered";
-		ctx.fillRect(x, y, w, h);
+	};
+
+	this.hover = ctx => {
+		const
+			{x, y} = this,
+			[tw, th] = this.textSize,
+			fs = this.fontSize;
+		console.log("ok")
+		
+		if (this.hovered) {
+			ctx.fillStyle = this.textColor.foreground;
+			ctx.fillRect(x, y + th - 2, tw, fs);
+
+			ctx.fillStyle = this.textColor.background;
+			ctx.fillRect(x + fs, y + th + fs - 2, tw, fs);
+		} else ctx.clearRect(x, y + th - 2, tw + fs, 2 * fs);
 	};
 };

@@ -7,6 +7,7 @@ export const GUI = {
 	maxHeight: screen.height,
 	scale: 2,
 	preferredScale: 2,
+	previousScale: 2,
 	layers: new Set(),
 };
 
@@ -50,10 +51,14 @@ export const Output = {
 	outOfRangeProgressPercent: "Progress bar percentage not between 0 and 100.",
 };
 
+import {HoverLayer} from "./Layer.js";
+
 export {Loader} from "./Loader.js";
-export {Layer} from "./Layer.js";
+export {Layer, HoverLayer} from "./Layer.js";
 export {Component} from "./components/index.js";
 export {Color} from "./Color.js";
 export {Utils} from "./utils/index.js";
+
+HoverLayer.stretch();
 
 export {default as Config} from "../public/config.js";

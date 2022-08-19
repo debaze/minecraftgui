@@ -39,10 +39,14 @@ for (let layer of layers) {
 	layer = new Layer(layer);
 	layer.compute();
 	layer.visible && layer.draw();
-
-	addEventListener("resize", () => Utils.debounce(() => {
-		Utils.resize();
-
-		layer.compute().redraw();
-	}, 50));
 }
+
+
+
+addEventListener("resize", () => Utils.debounce(() => {
+	Utils.resize();
+
+	for (const layer of GUI.layers) {
+		layer.compute().redraw();
+	}
+}, 50));

@@ -1,4 +1,4 @@
-import {GUI, Output, Utils} from "../index.js";
+import {GUI, Output, Utils, HoverLayer} from "../index.js";
 
 /**
  * Global component.
@@ -51,14 +51,16 @@ export function Component({align, margin = [0, 0], visible = true}) {
 
 		layer.canvas.addEventListener(event, e => {
 			const
+				{ctx} = HoverLayer,
 				{scale} = GUI,
 				{x, y} = this,
 				[w, h] = this.size;
+			let hovered = Utils.intersect([e.x, e.y], [x * scale, y * scale, (x + w) * scale, (y + h) * scale]);
 			
-			console.log(e.x, w);
+			if (this.hovered !== hovered) {
+				this.hovered = hovered;
 
-			if (Utils.intersect([e.x, e.y], [x, y, (x + w), (y + h)])) {
-				console.log("Intersecting");
+				this.hover(ctx);
 			}
 		});
 	};
