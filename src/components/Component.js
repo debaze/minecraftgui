@@ -1,4 +1,4 @@
-import {GUI, Output} from "../index.js";
+import {GUI, Output, Utils} from "../index.js";
 
 /**
  * Global component.
@@ -54,10 +54,12 @@ export function Component({align, margin = [0, 0], visible = true}) {
 				{scale} = GUI,
 				{x, y} = this,
 				[w, h] = this.size;
+			
+			console.log(e.x, w);
 
-			// console.log(e)
-			console.log("Component", (x + w) * scale, (y + h) * scale);
-			console.log("Event", e.x, e.y);
+			if (Utils.intersect([e.x, e.y], [x, y, (x + w), (y + h)])) {
+				console.log("Intersecting");
+			}
 		});
 	};
 };
