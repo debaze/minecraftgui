@@ -10,5 +10,5 @@ canvas {
 
 canvas.hover {
 	pointer-events: none;
-	z-index: 999;
+	z-index: 9;
 }

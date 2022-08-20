@@ -7,8 +7,8 @@ export const GUI = {
 	maxHeight: screen.height,
 	scale: 2,
 	preferredScale: 2,
-	previousScale: 2,
-	layers: new Set(),
+	previousScale: null,
+	layers: {},
 };
 
 export const Font = {
@@ -49,6 +49,7 @@ export const Output = {
 	invalidProgressLength: "Invalid progress bar length received (0 is not accepted).",
 	invalidProgressPercent: "Invalid progress bar percentage value.",
 	outOfRangeProgressPercent: "Progress bar percentage not between 0 and 100.",
+	invalidComponentType: "Invalid component type.",
 };
 
 import {HoverLayer} from "./Layer.js";
@@ -59,6 +60,9 @@ export {Component} from "./components/index.js";
 export {Color} from "./Color.js";
 export {Utils} from "./utils/index.js";
 
+HoverLayer.canvas.width = GUI.maxWidth;
+HoverLayer.canvas.height = GUI.maxHeight;
 HoverLayer.stretch();
+HoverLayer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
 
 export {default as Config} from "../public/config.js";

@@ -10,8 +10,8 @@
  * @returns	{boolean}
  */
 export const intersect = ([x, y], [x1, y1, x2, y2]) => (
-	x > x1 &&
+	x >= x1 &&
 	x < x2 &&
-	y > y1 &&
+	y >= y1 &&
 	y < y2
 );

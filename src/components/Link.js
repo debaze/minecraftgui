@@ -22,7 +22,7 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			[pt, pr, pb, pl] = this.padding,
 			fs = this.fontSize,
 			w = 0,
-			h = (Font.symbolHeight + 1) * fs,
+			h = Font.symbolHeight * fs,
 			i;
 		this.chars = [];
 
@@ -53,9 +53,7 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 	}
 
 	this.compute = () => {
-		this.on("hover", (x, y) => {
-			console.log(x, y);
-		});
+		this.on("hover");
 
 		this.computePosition();
 	};
@@ -71,7 +69,7 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			fs = this.fontSize;
 		let symbol;
 
-		TextBuffer.resize(tw, th);
+		TextBuffer.resize(tw, th + fs);
 
 		for (const c of this.chars) {
 			symbol = symbols[c.symbol];
@@ -105,17 +103,18 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 
 	this.hover = ctx => {
 		const
-			{x, y} = this,
-			[tw, th] = this.textSize,
-			fs = this.fontSize;
-		console.log("ok")
-		
+			fs = this.fontSize,
+			ux = this.x - fs,
+			uy = this.y + this.textSize[1],
+			uw = this.textSize[0] + fs,
+			uh = fs;
+
 		if (this.hovered) {
 			ctx.fillStyle = this.textColor.foreground;
-			ctx.fillRect(x, y + th - 2, tw, fs);
+			ctx.fillRect(ux, uy, uw, uh);
 
 			ctx.fillStyle = this.textColor.background;
-			ctx.fillRect(x + fs, y + th + fs - 2, tw, fs);
-		} else ctx.clearRect(x, y + th - 2, tw + fs, 2 * fs);
+			ctx.fillRect(ux + fs, uy + fs, uw, uh);
+		} else ctx.clearRect(ux, uy, uw + fs, uh * 2);
 	};
 };

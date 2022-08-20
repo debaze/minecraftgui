@@ -18,19 +18,20 @@ export function resize() {
 	}
 	i = undefined;
 
+	HoverLayer.stretch();
+	const layers = Object.values(GUI.layers);
+	for (const layer of layers) {
+		layer.stretch();
+	}
+
 	if (GUI.previousScale !== GUI.scale) {
 		GUI.previousScale = GUI.scale;
 
-		for (const layer of GUI.layers) {
-			layer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
-			layer.stretch();
+		const transform = [GUI.scale, 0, 0, GUI.scale, 0, 0];
 
-			for (const component of layer.components) {
-				component.hovered = false;
-			}
+		HoverLayer.ctx.setTransform(...transform);
+		for (const layer of layers) {
+			layer.ctx.setTransform(...transform);
 		}
-
-		HoverLayer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
-		HoverLayer.stretch();
 	}
 };

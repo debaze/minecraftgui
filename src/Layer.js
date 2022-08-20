@@ -7,30 +7,49 @@ import {GUI, Output} from "./index.js";
  * @param	{string}	name							Layer name (must be unique)
  * @param	{array}		[size=[GUI.width, GUI.height]]	Width & height
  * @param	{boolean}	[visible=true]					Visibility state
+ * @param	{number}	[z=1]							Z-index (the farther, the nearest)
  * @param	{Color}		background						Background color
  * @param	{array}		[components=[]]					Component list (can be managed later with add())
  */
-export function Layer({name, size = [GUI.width, GUI.height], visible = true, background, components = []}) {
+export function Layer({name, size = [GUI.width, GUI.height], visible = true, z = 1, background, components = []}) {
 	if (!name) return console.error(Output.untitledLayer);
 
 	let [width, height] = size;
 
-	Object.assign(this, {name, width, height, background, visible});
+	Object.assign(this, {name, width, height, visible, z, background});
 
 	this.components = new Set();
 
-	this.canvas = document.createElement("canvas");
-	this.canvas.width = GUI.maxWidth;
-	this.canvas.height = GUI.maxHeight;
-	this.canvas.style.visibility = visibilities[+this.visible];
+	const canvas = document.createElement("canvas");
+	canvas.width = GUI.maxWidth;
+	canvas.height = GUI.maxHeight;
+	Object.assign(canvas.style, {
+		opacity: +this.visible,
+		zIndex: this.z,
+	});
 
-	this.ctx = this.canvas.getContext("2d");
-	this.ctx.imageSmoothingEnabled = false;
-	this.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
+	const ctx = canvas.getContext("2d");
+	ctx.imageSmoothingEnabled = false;
+	ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
 
-	this.toggle = (state = !this.visible) => {
-		this.visible = state;
-		this.canvas.style.visibility = visibilities[+this.visible];
+	Object.assign(this, {canvas, ctx});
+
+	/**
+	 * Toggles the canvas element.
+	 * 
+	 * @param	{number}	[duration=0]	Duration value (ms)
+	 * @param	{number}	[delay=0]		Delay value (ms)
+	 * @returns	{self}
+	 */
+	this.toggle = (duration = 0, delay = 0) => {
+		this.visible = !this.visible;
+
+		Object.assign(this.canvas.style, {
+			"opacity":				+this.visible,
+			"pointer-events":		pointerEvents[+this.visible],
+			"transition-delay":		`${delay}ms`,
+			"transition-duration":	`${duration}ms`,
+		});
 
 		return this;
 	};
@@ -59,6 +78,15 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 		return this;
 	};
 
+	/**
+	 * Returns the component with the given name.
+	 * NOTE: Please choose unique names for each of your components.
+	 * 
+	 * @param	{string}	name
+	 * @returns	{Component}
+	 */
+	this.get = name => [...this.components].find(c => c.name === name);
+
 	this.compute = () => {
 		for (const component of this.components) {
 			component.visible && component.compute();
@@ -85,26 +113,21 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 
 	this.redraw = () => this.erase().draw();
 
-	GUI.layers.add(this);
+	GUI.layers[this.name] = this;
 	this.add(...components);
 	document.body.appendChild(this.canvas);
 };
 
-export const HoverLayer = document.createElement("canvas");
-HoverLayer.ctx = HoverLayer.getContext("2d");
-HoverLayer.className = "hover";
+export const HoverLayer = {};
+HoverLayer.canvas = document.createElement("canvas");
+HoverLayer.canvas.className = "hover";
+HoverLayer.ctx = HoverLayer.canvas.getContext("2d");
+HoverLayer.ctx.imageSmoothingEnabled = false;
 HoverLayer.stretch = (width = GUI.width, height = GUI.height) => {
 	Object.assign(HoverLayer, {width, height});
-	HoverLayer.ctx.imageSmoothingEnabled = false;
 
 	return this;
 };
-HoverLayer.cached = {
-	x1: 0,
-	x2: 0,
-	y1: 0,
-	y2: 0,
-};
-document.body.appendChild(HoverLayer);
+document.body.appendChild(HoverLayer.canvas);
 
-let visibilities = ["hidden", "visible"];
+let pointerEvents = ["none", "auto"];

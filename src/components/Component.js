@@ -8,10 +8,10 @@ import {GUI, Output, Utils, HoverLayer} from "../index.js";
  * @param	{array}		[margin=[0, 0]]	X & Y offset relative to the window side
  * @param	{boolean}	[visible=true]	Visibility state
  */
-export function Component({align, margin = [0, 0], visible = true}) {
+export function Component({name = "", align, margin = [0, 0], visible = true}) {
 	if (!align) return console.error(Output.needAlignment);
 
-	Object.assign(this, {align, margin, visible});
+	Object.assign(this, {name, align, margin, visible});
 
 	/**
 	 * Calculates the absolute component position from its alignment and its margin.
@@ -33,6 +33,12 @@ export function Component({align, margin = [0, 0], visible = true}) {
 		Object.assign(this, {x, y});
 	};
 
+	/**
+	 * Adds hover and click (mousedown) events to the component.
+	 * 
+	 * @param	{string}	event		Event name
+	 * @param	{function}	callback	Callback function
+	 */
 	this.on = (event, callback) => {
 		const {layer} = this;
 
@@ -40,28 +46,28 @@ export function Component({align, margin = [0, 0], visible = true}) {
 
 		switch (event) {
 			case "hover":
-				event = "mousemove";
+				layer.canvas.addEventListener("mousemove", e => {
+					const
+						{ctx} = HoverLayer,
+						{scale} = GUI,
+						{x, y} = this,
+						[w, h] = this.size,
+						hovered = Utils.intersect([e.x, e.y], [x * scale, y * scale, (x + w) * scale, (y + h) * scale]);
+					
+					if (this.hovered !== hovered) {
+						this.hovered = hovered;
+
+						this.hover(ctx);
+					}
+				});
 
 				break;
 			case "click":
-				event = "mousedown";
+				layer.canvas.addEventListener("mousedown", () => {
+					this.hovered && callback();
+				});
 
 				break;
 		}
-
-		layer.canvas.addEventListener(event, e => {
-			const
-				{ctx} = HoverLayer,
-				{scale} = GUI,
-				{x, y} = this,
-				[w, h] = this.size;
-			let hovered = Utils.intersect([e.x, e.y], [x * scale, y * scale, (x + w) * scale, (y + h) * scale]);
-			
-			if (this.hovered !== hovered) {
-				this.hovered = hovered;
-
-				this.hover(ctx);
-			}
-		});
 	};
 };
