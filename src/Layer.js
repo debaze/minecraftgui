@@ -1,4 +1,4 @@
-import {GUI, Output} from "./index.js";
+import {Instance, GUI, Output} from "./index.js";
 
 /**
  * Layer constructor.
@@ -21,8 +21,8 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	this.components = new Set();
 
 	const canvas = document.createElement("canvas");
-	canvas.width = GUI.maxWidth;
-	canvas.height = GUI.maxHeight;
+	canvas.width = Instance.data.gui.max_width;
+	canvas.height = Instance.data.gui.max_height;
 	Object.assign(canvas.style, {
 		opacity: +this.visible,
 		zIndex: this.z,

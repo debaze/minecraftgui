@@ -1,4 +1,4 @@
-import {GUI, HoverLayer} from "../index.js";
+import {Instance, GUI, HoverLayer} from "../index.js";
 
 /**
  * Stretches the layers to the GUI size and scales them.
@@ -12,8 +12,8 @@ export function resize() {
 	let i = GUI.preferredScale + 2;
 	while (--i > 1) {
 		if (
-			GUI.width <= GUI.defaultWidth * i ||
-			GUI.height < GUI.defaultHeight * i
+			GUI.width <= Instance.data.gui.default_width * i ||
+			GUI.height < Instance.data.gui.default_height * i
 		) GUI.scale = i - 1;
 	}
 	i = undefined;

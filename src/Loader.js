@@ -1,7 +1,8 @@
-import {GUI, Output, Config, TEXTURES, Color, Component, Layer, Utils} from "./index.js";
+import {GUI, Output, TEXTURE_PATH, Config, TEXTURES, Color, Component, Layer, Utils} from "./index.js";
 
 export function Loader() {
 	this.progress = null;
+	this.logs = false;
 
 	this.bind = progress => {
 		if (!(progress instanceof Component.Progress)) return console.error(Output.invalidComponentType);
@@ -23,16 +24,7 @@ export function Loader() {
 			const step = (100 - this.progress.percent) / sources.size;
 
 			for (const source of sources) {
-				image = new Image();
-				image.src = Config.ABSOLUTE_TEXTURE_PATH + source;
-
-				try {
-					await image.decode();
-				} catch (error) {
-					console.error(`Could not load ${image.src}: the resource was not found.`);
-				}
-
-				TEXTURES[source] = image;
+				await load(image, source, this.logs);
 				this.progress.advance(step);
 			}
 
@@ -40,20 +32,11 @@ export function Loader() {
 			this.progress = null;
 		} else {
 			for (const source of sources) {
-				image = new Image();
-				image.src = Config.ABSOLUTE_TEXTURE_PATH + source;
-
-				try {
-					await image.decode();
-				} catch (error) {
-					console.error(`Could not load ${image.src}: the resource was not found.`);
-				}
-
-				TEXTURES[source] = image;
+				await load(image, source, this.logs);
 			}
-
-			console.log(`Loading finished (took ${((performance.now() - now) / 1000).toFixed(2)}s)`);
 		}
+
+		this.logs && console.log(`Loading finished (took ${((performance.now() - now) / 1000).toFixed(2)}s)`);
 	};
 
 	this.loadLayers = async source => {
@@ -96,11 +79,26 @@ export function Loader() {
 		sources = new Set(sources);
 
 		for (const source of sources) {
-			TEXTURES[source].src = Config.ABSOLUTE_TEXTURE_PATH + Config.white;
+			TEXTURES[source].src = TEXTURE_PATH + Config.white;
 
 			await TEXTURES[source].decode();
 
 			TEXTURES.delete(source);
 		}
 	};
+};
+
+const load = async (image, source, logs) => {
+	image = new Image();
+	image.src = TEXTURE_PATH + source;
+
+	try {
+		await image.decode();
+	} catch (error) {
+		console.error(`Could not load ${image.src}: the resource was not found.`);
+	}
+
+	TEXTURES[source] = image;
+
+	logs && console.log(source, "loaded");
 };

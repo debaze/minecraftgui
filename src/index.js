@@ -1,13 +1,4 @@
 export const GUI = {
-	defaultWidth: 320,
-	defaultHeight: 240,
-	width: innerWidth,
-	height: innerHeight,
-	maxWidth: screen.width,
-	maxHeight: screen.height,
-	scale: 2,
-	preferredScale: 2,
-	previousScale: null,
 	layers: {},
 };
 
@@ -60,9 +51,61 @@ export {Component} from "./components/index.js";
 export {Color} from "./Color.js";
 export {Utils} from "./utils/index.js";
 
-HoverLayer.canvas.width = GUI.maxWidth;
-HoverLayer.canvas.height = GUI.maxHeight;
+import Config from "../public/config.js";
+export {Config};
+
+export const ASSET_PATH = "assets/";
+export const FONT_PATH = ASSET_PATH + "font/";
+export const LANGUAGE_PATH = ASSET_PATH + "lang/";
+export const TEXTURE_PATH = ASSET_PATH + "textures/";
+
+export const Instance = {
+	name: "Minecraft",
+	version: "1.19.2",
+	data: {
+		gui: {
+			default_width: 320,
+			default_height: 240,
+			max_width: screen.width,
+			max_height: screen.height,
+		},
+		mojang_backgrounds: [0xef323d, 0x000000],
+		lang: null,
+	},
+	settings: {},
+	setup: async function(settings) {
+		// Setting: "Language"
+		{
+			const {language} = settings;
+
+			if (this.settings.language !== language) {
+				this.data.lang = await (await fetch(`${LANGUAGE_PATH}${language}.json`)).json();
+			}
+		}
+
+		// Setting: "Monochrome Logo"
+		{
+			const {monochrome_logo} = settings;
+
+			if (this.settings.monochrome_logo !== monochrome_logo) {
+				Config.mojangBackground = this.data.mojang_backgrounds[+monochrome_logo];
+			}
+		}
+
+		// Setting: "GUI Scale"
+		{
+			const {gui_scale} = settings;
+
+			if (this.settings.gui_scale !== gui_scale) {
+				GUI.preferredScale = gui_scale;
+			}
+		}
+
+		Object.assign(this, {settings});
+	},
+};
+
+HoverLayer.canvas.width = Instance.data.gui.max_width;
+HoverLayer.canvas.height = Instance.data.gui.max_height;
 HoverLayer.stretch();
 HoverLayer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
-
-export {default as Config} from "../public/config.js";

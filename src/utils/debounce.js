@@ -1,5 +1,5 @@
 /**
- * Simple debounce function.
+ * Debounce function.
  * 
  * @param		{function}	callback
  * @param		{number}	delay

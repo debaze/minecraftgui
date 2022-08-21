@@ -1,5 +1,5 @@
 import {Component} from "./Component.js";
-import {GUI, TEXTURES, Font, Output} from "../index.js";
+import {TEXTURES, Font, Output} from "../index.js";
 
 /**
  * Text component.

@@ -1,0 +1,12 @@
+{
+	"system.error.invalid_hexadecimal":	"Colors only support 6 digit hex codes.",
+	"system.error.need_alignment":		"Tried to instantiate a Compoentn without the `alignment` option.",
+	"untitled_layer":					"A name must be provided when instantiating a layer.",
+	"cant_compute_unlayered_component":	"Unable to compute a component which doesn't belong to a layer.",
+	"event_on_unlayered_component":		"Unable to register an event for this component, because it doesn't belong to a layer.",
+	"invalid_text":						"Received a non-string value for a Text component.",
+	"invalid_progress_length":			"Invalid progress bar length received (0 is not accepted).",
+	"invalid_progress_percent":			"Invalid progress bar percentage value.",
+	"out_of_range_progress_percent":	"Progress bar percentage out of [0, 100].",
+	"invalid_component_type":			"Invalid component type."
+}
