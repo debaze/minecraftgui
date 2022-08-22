@@ -1,3 +1,2 @@
-export {Hover} from "./Hover.js";
+export {HoverLayer} from "./HoverLayer.js";
 export {Layer} from "./Layer.js";
-export {Tooltip} from "./Tooltip.js";

@@ -44,8 +44,6 @@ export function Loader() {
 		const layers = await (await fetch(source)).json();
 
 		for (let layer of layers) {
-			layer.background = new Color(layer.background);
-
 			// Construct layer components
 			for (const i in layer.components) {
 				let component = layer.components[i];

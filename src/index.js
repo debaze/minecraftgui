@@ -1,8 +1,8 @@
 import Config from "../public/config.js";
-import {Hover} from "./gui/layers/Hover.js";
+import {HoverLayer} from "./gui/layers/index.js";
 
 export {Config};
-export {Layer, Hover} from "./gui/layers/index.js";
+export {Layer, HoverLayer} from "./gui/layers/index.js";
 export {Component} from "./gui/components/index.js";
 export {TextBuffer} from "./gui/buffers/index.js";
 export {Loader} from "./Loader.js";
@@ -52,10 +52,10 @@ export const Instance = {
 	init: function() {
 		document.title = `${this.name} ${this.version.join(".")}`;
 
-		Hover.canvas.width = this.data.gui.max_width;
-		Hover.canvas.height = this.data.gui.max_height;
-		Hover.stretch();
-		Hover.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
+		HoverLayer.canvas.width = this.data.gui.max_width;
+		HoverLayer.canvas.height = this.data.gui.max_height;
+		HoverLayer.stretch();
+		HoverLayer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
 	},
 	setup: async function(settings) {
 		// Setting: "Language"
