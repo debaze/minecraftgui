@@ -54,7 +54,7 @@ const
 // Prepare the main menu before fading out the loading screen
 // Set the version number
 const version = mainMenu.get("version");
-version.text = `${Instance.name} ${Instance.version}`;
+version.text = `${Instance.name} ${Instance.version.join(".")}`;
 version.format();
 
 // Show the main menu while the loading screen is faded out

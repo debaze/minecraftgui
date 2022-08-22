@@ -61,7 +61,7 @@ export const TEXTURE_PATH = ASSET_PATH + "textures/";
 
 export const Instance = {
 	name: "Minecraft",
-	version: "1.19.2",
+	version: [1, 19, 2],
 	data: {
 		gui: {
 			default_width: 320,
