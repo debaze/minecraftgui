@@ -64,4 +64,4 @@ loadingScreen.toggle(2000, 500);
 
 
 
-// The top-left pixel of the option layer has the color #2e2117 (current is #b9855c);
+// The top-left pixel of the option layer has the color #2e2117 (current is #b9855c) (41%?)
