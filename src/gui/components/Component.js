@@ -1,5 +1,5 @@
-import {GUI, Utils, HoverLayer} from "../index.js";
-import {log} from "../utils/index.js";
+import {GUI, Utils, Hover} from "../../index.js";
+import {log} from "../../utils/index.js";
 
 /**
  * Global component.
@@ -49,7 +49,7 @@ export function Component({name = "", align, margin = [0, 0], visible = true}) {
 			case "hover":
 				layer.canvas.addEventListener("mousemove", e => {
 					const
-						{ctx} = HoverLayer,
+						{ctx} = Hover,
 						{scale} = GUI,
 						{x, y} = this,
 						[w, h] = this.size,

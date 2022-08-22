@@ -5,6 +5,7 @@ const {symbols, colors} = await (await fetch(Config.font)).json();
 Object.assign(Font, {symbols, colors});
 
 const settings = await (await fetch("public/settings.json")).json();
+Instance.init();
 await Instance.setup(settings);
 
 Utils.resize();

@@ -1,6 +1,6 @@
 import {Component} from "./Component.js";
-import {TEXTURES, Font} from "../index.js";
-import {log} from "../utils/index.js";
+import {TEXTURES, Font} from "../../index.js";
+import {log} from "../../utils/index.js";
 
 /**
  * Text component.

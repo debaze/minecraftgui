@@ -1,4 +1,4 @@
-import {Instance, GUI, HoverLayer} from "../index.js";
+import {Instance, GUI, Hover} from "../index.js";
 
 /**
  * Stretches the layers to the GUI size and scales them.
@@ -18,7 +18,7 @@ export function resize() {
 	}
 	i = undefined;
 
-	HoverLayer.stretch();
+	Hover.stretch();
 	const layers = Object.values(GUI.layers);
 	for (const layer of layers) {
 		layer.stretch();
@@ -29,7 +29,7 @@ export function resize() {
 
 		const transform = [GUI.scale, 0, 0, GUI.scale, 0, 0];
 
-		HoverLayer.ctx.setTransform(...transform);
+		Hover.ctx.setTransform(...transform);
 		for (const layer of layers) {
 			layer.ctx.setTransform(...transform);
 		}

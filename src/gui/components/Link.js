@@ -1,5 +1,5 @@
 import {Component} from "./Component.js";
-import {TEXTURES, Font, TextBuffer} from "../index.js";
+import {TEXTURES, Font, TextBuffer} from "../../index.js";
 
 /**
  * Link component.

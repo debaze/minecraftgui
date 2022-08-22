@@ -1,7 +1,19 @@
-export const GUI = {
-	layers: {},
-};
+import Config from "../public/config.js";
+import {Hover} from "./gui/layers/Hover.js";
 
+export {Config};
+export {Layer, Hover} from "./gui/layers/index.js";
+export {Component} from "./gui/components/index.js";
+export {TextBuffer} from "./gui/buffers/index.js";
+export {Loader} from "./Loader.js";
+export {Color} from "./Color.js";
+export * as Utils from "./utils/index.js";
+export const ASSET_PATH = "assets/";
+export const FONT_PATH = ASSET_PATH + "font/";
+export const LANGUAGE_PATH = ASSET_PATH + "lang/";
+export const TEXTURE_PATH = ASSET_PATH + "textures/";
+export const TEXTURES = new Set();
+export const GUI = {layers: {}};
 export const Font = {
 	symbolHeight: 8,
 	strikethroughY: 3,
@@ -20,33 +32,9 @@ export const Font = {
 	},
 };
 
-export const TEXTURES = new Set();
-
-export const TextBuffer = typeof OffscreenCanvas !== "undefined" ? new OffscreenCanvas(0, 0) : document.createElement("canvas");
-TextBuffer.bctx = TextBuffer.getContext("2d");
-TextBuffer.resize = (w, h) => {
-	TextBuffer.width = w;
-	TextBuffer.height = h;
-	TextBuffer.bctx.imageSmoothingEnabled = false;
-};
-
-import {HoverLayer} from "./Layer.js";
-
-export {Loader} from "./Loader.js";
-export {Layer, HoverLayer} from "./Layer.js";
-export {Component} from "./components/index.js";
-export {Color} from "./Color.js";
-
-export * as Utils from "./utils/index.js";
-
-import Config from "../public/config.js";
-export {Config};
-
-export const ASSET_PATH = "assets/";
-export const FONT_PATH = ASSET_PATH + "font/";
-export const LANGUAGE_PATH = ASSET_PATH + "lang/";
-export const TEXTURE_PATH = ASSET_PATH + "textures/";
-
+/**
+ * @todo Store the icon path and the window name
+ */
 export const Instance = {
 	name: "Minecraft",
 	version: [1, 19, 2],
@@ -61,6 +49,14 @@ export const Instance = {
 		lang: null,
 	},
 	settings: {},
+	init: function() {
+		document.title = `${this.name} ${this.version.join(".")}`;
+
+		Hover.canvas.width = this.data.gui.max_width;
+		Hover.canvas.height = this.data.gui.max_height;
+		Hover.stretch();
+		Hover.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
+	},
 	setup: async function(settings) {
 		// Setting: "Language"
 		{
@@ -92,8 +88,3 @@ export const Instance = {
 		Object.assign(this, {settings});
 	},
 };
-
-HoverLayer.canvas.width = Instance.data.gui.max_width;
-HoverLayer.canvas.height = Instance.data.gui.max_height;
-HoverLayer.stretch();
-HoverLayer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);

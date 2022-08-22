@@ -1,5 +1,5 @@
 import {Component} from "./Component.js";
-import {log} from "../utils/index.js";
+import {log} from "../../utils/index.js";
 
 /**
  * Progress component.

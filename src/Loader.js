@@ -3,7 +3,7 @@ import {log} from "./utils/index.js";
 
 export function Loader() {
 	this.progress = null;
-	this.logs = false;
+	this.logs = true;
 
 	this.bind = progress => {
 		if (!(progress instanceof Component.Progress)) return log("system.error.invalid_component_type");
@@ -37,7 +37,7 @@ export function Loader() {
 			}
 		}
 
-		this.logs && console.log(`Loading finished (took ${((performance.now() - now) / 1000).toFixed(2)}s)`);
+		this.logs && console.log(`%cLoading finished (took ${((performance.now() - now) / 1000).toFixed(2)}s)`, "color: #6cbf6c");
 	};
 
 	this.loadLayers = async source => {
@@ -101,5 +101,5 @@ const load = async (image, source, logs) => {
 
 	TEXTURES[source] = image;
 
-	logs && console.log(source, "loaded");
+	logs && console.log(`%c${source} loaded`, "color: #777; font-style: italic");
 };

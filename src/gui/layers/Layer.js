@@ -1,5 +1,5 @@
-import {Instance, GUI} from "./index.js";
-import {log} from "./utils/index.js";
+import {Instance, GUI} from "../../index.js";
+import {log} from "../../utils/index.js";
 
 /**
  * Layer constructor.
@@ -118,17 +118,5 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	this.add(...components);
 	document.body.appendChild(this.canvas);
 };
-
-export const HoverLayer = {};
-HoverLayer.canvas = document.createElement("canvas");
-HoverLayer.canvas.className = "hover";
-HoverLayer.ctx = HoverLayer.canvas.getContext("2d");
-HoverLayer.ctx.imageSmoothingEnabled = false;
-HoverLayer.stretch = (width = GUI.width, height = GUI.height) => {
-	Object.assign(HoverLayer, {width, height});
-
-	return this;
-};
-document.body.appendChild(HoverLayer.canvas);
 
 let pointerEvents = ["none", "auto"];

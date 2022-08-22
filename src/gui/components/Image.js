@@ -1,5 +1,5 @@
 import {Component} from "./Component.js";
-import {TEXTURES} from "../index.js";
+import {TEXTURES} from "../../index.js";
 
 /**
  * Image component.
