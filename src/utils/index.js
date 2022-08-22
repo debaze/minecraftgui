@@ -1,7 +1,5 @@
-import {clamp} from "./clamp.js";
-import {debounce} from "./debounce.js";
-import {intersect} from "./intersect.js";
-import {log} from "./log.js";
-import {resize} from "./resize.js";
-
-export const Utils = {clamp, debounce, intersect, log, resize};
+export {clamp} from "./clamp.js";
+export {debounce} from "./debounce.js";
+export {intersect} from "./intersect.js";
+export {log} from "./log.js";
+export {resize} from "./resize.js";

@@ -1,11 +1,12 @@
-import {GUI, Output, TEXTURE_PATH, Config, TEXTURES, Color, Component, Layer, Utils} from "./index.js";
+import {GUI, TEXTURE_PATH, Config, TEXTURES, Color, Component, Layer, Utils} from "./index.js";
+import {log} from "./utils/index.js";
 
 export function Loader() {
 	this.progress = null;
 	this.logs = false;
 
 	this.bind = progress => {
-		if (!(progress instanceof Component.Progress)) return console.error(Output.invalidComponentType);
+		if (!(progress instanceof Component.Progress)) return log("system.error.invalid_component_type");
 
 		this.progress = progress;
 	};

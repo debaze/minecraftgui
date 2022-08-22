@@ -1,4 +1,5 @@
-import {GUI, Output, Utils, HoverLayer} from "../index.js";
+import {GUI, Utils, HoverLayer} from "../index.js";
+import {log} from "../utils/index.js";
 
 /**
  * Global component.
@@ -9,7 +10,7 @@ import {GUI, Output, Utils, HoverLayer} from "../index.js";
  * @param	{boolean}	[visible=true]	Visibility state
  */
 export function Component({name = "", align, margin = [0, 0], visible = true}) {
-	if (!align) return console.error(Output.needAlignment);
+	if (!align) return log("system.error.need_alignment");
 
 	Object.assign(this, {name, align, margin, visible});
 
@@ -17,7 +18,7 @@ export function Component({name = "", align, margin = [0, 0], visible = true}) {
 	 * Calculates the absolute component position from its alignment and its margin.
 	 */
 	this.computePosition = () => {
-		if (!this.layer) return console.error(Output.cantComputeUnlayeredComponent);
+		if (!this.layer) return log("system.error.cant_compute_unlayered_component");
 
 		let [horizontal, vertical] = this.align,
 			[x, y] = this.margin,
@@ -42,7 +43,7 @@ export function Component({name = "", align, margin = [0, 0], visible = true}) {
 	this.on = (event, callback) => {
 		const {layer} = this;
 
-		if (!layer) return console.error(Output.eventOnUnlayeredComponent);
+		if (!layer) return log("system.error.event_on_unlayered_component");
 
 		switch (event) {
 			case "hover":

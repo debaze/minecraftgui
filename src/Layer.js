@@ -1,4 +1,5 @@
-import {Instance, GUI, Output} from "./index.js";
+import {Instance, GUI} from "./index.js";
+import {log} from "./utils/index.js";
 
 /**
  * Layer constructor.
@@ -12,7 +13,7 @@ import {Instance, GUI, Output} from "./index.js";
  * @param	{array}		[components=[]]					Component list (can be managed later with add())
  */
 export function Layer({name, size = [GUI.width, GUI.height], visible = true, z = 1, background, components = []}) {
-	if (!name) return console.error(Output.untitledLayer);
+	if (!name) return log("system.error.untitled_layer");
 
 	let [width, height] = size;
 

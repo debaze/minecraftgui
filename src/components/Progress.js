@@ -1,5 +1,5 @@
 import {Component} from "./Component.js";
-import {Output} from "../index.js";
+import {log} from "../utils/index.js";
 
 /**
  * Progress component.
@@ -9,9 +9,9 @@ import {Output} from "../index.js";
  * @param	{number}	[percent=0]	Current percentage value showed on the bar
  */
 export function Progress({length, percent = 0}) {
-	if (!length) return console.error(Output.invalidProgressLength);
-	if (typeof percent !== "number") return console.error(Output.invalidProgressPercent);
-	if (percent < 0 || percent > 100) return console.error(Output.outOfRangeProgressPercent);
+	if (!length) return log("system.error.invalid_progress_length");
+	if (typeof percent !== "number") return log("system.error.invalid_progress_percent");
+	if (percent < 0 || percent > 100) return log("system.error.out_of_range_progress_percent");
 
 	Component.call(this, ...arguments);
 

@@ -30,26 +30,14 @@ TextBuffer.resize = (w, h) => {
 	TextBuffer.bctx.imageSmoothingEnabled = false;
 };
 
-export const Output = {
-	invalidHex: "Colors only support 6 digit hex codes.",
-	needAlignment: "Tried to instantiate a Component without the `alignment` option.",
-	untitledLayer: "A name must be provided when instantiating a layer.",
-	cantComputeUnlayeredComponent: "Unable to compute a component which doesn't belong to a layer.",
-	eventOnUnlayeredComponent: "Unable to register an event for this component, because it doesn't belong to a layer.",
-	invalidText: "Received a non-string value for a Text component.",
-	invalidProgressLength: "Invalid progress bar length received (0 is not accepted).",
-	invalidProgressPercent: "Invalid progress bar percentage value.",
-	outOfRangeProgressPercent: "Progress bar percentage not between 0 and 100.",
-	invalidComponentType: "Invalid component type.",
-};
-
 import {HoverLayer} from "./Layer.js";
 
 export {Loader} from "./Loader.js";
 export {Layer, HoverLayer} from "./Layer.js";
 export {Component} from "./components/index.js";
 export {Color} from "./Color.js";
-export {Utils} from "./utils/index.js";
+
+export * as Utils from "./utils/index.js";
 
 import Config from "../public/config.js";
 export {Config};

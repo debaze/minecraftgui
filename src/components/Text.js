@@ -1,5 +1,6 @@
 import {Component} from "./Component.js";
-import {TEXTURES, Font, Output} from "../index.js";
+import {TEXTURES, Font} from "../index.js";
+import {log} from "../utils/index.js";
 
 /**
  * Text component.
@@ -18,7 +19,7 @@ import {TEXTURES, Font, Output} from "../index.js";
 export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow = true, fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
 	Component.call(this, ...arguments);
 
-	if (typeof text !== "string") return console.error(Output.invalidText);
+	if (typeof text !== "string") return log("system.error.invalid_text");
 
 	Object.assign(this, {padding, background, text, dropShadow, fontSize, letterSpacing, lineSpacing, boldWeight});
 
