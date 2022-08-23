@@ -1,4 +1,4 @@
-import {Instance, Loader, Layer, Component, Color, Font, Utils} from "../src/index.js";
+import {Instance, Loader, Layer, BackgroundLayer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
 import Config from "./config.js";
 
 const {symbols, colors} = await (await fetch(Config.font)).json();
@@ -47,6 +47,7 @@ loader.bind(progress);
 await loader.load(...Config.SECONDARY_SOURCES);
 
 const
+	backgroundLayer = new BackgroundLayer(),
 	layers = await loader.loadLayers(Config.gui),
 	mainMenu = layers["main-menu"];
 
