@@ -7,7 +7,7 @@ export default {
 	SECONDARY_SOURCES: [
 		"gui/title/minecraft.png",
 		"gui/options_background.png",
-		// "large.png",
+		"large.png",
 	],
 	gui: "assets/gui.json",
 	font: "assets/font/default.json",

@@ -1,4 +1,4 @@
-import {Instance, Loader, Layer, BackgroundLayer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
+import {Instance, Loader, BackgroundLayer, Layer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
 import Config from "./config.js";
 
 const {symbols, colors} = await (await fetch(Config.font)).json();
@@ -21,7 +21,6 @@ let progress = new Component.Progress({
 	loadingScreen = new Layer({
 		name: "mojang-loading-screen",
 		z: 10,
-		background: new Color(Config.mojangBackground),
 		components: [
 			new Component.Image({
 				align: ["center", "center"],
@@ -41,17 +40,17 @@ let progress = new Component.Progress({
 			progress,
 		],
 	});
+loadingScreen.canvas.style.backgroundColor = new Color(Config.mojangBackground).hex;
 loadingScreen.compute().draw();
 
 loader.bind(progress);
 await loader.load(...Config.SECONDARY_SOURCES);
 
+BackgroundLayer.init();
+
 const
-	backgroundLayer = new BackgroundLayer(),
 	layers = await loader.loadLayers(Config.gui),
 	mainMenu = layers["main-menu"];
-
-
 
 // Prepare the main menu before fading out the loading screen
 // Set the version number
@@ -65,4 +64,4 @@ loadingScreen.toggle(2000, 500);
 
 
 
-// The top-left pixel of the option layer has the color #2e2117 (current is #b9855c) (41%?)
+// The top-left pixel of the option layer has the color #2e2117 (current is #b9855c) (25%?)

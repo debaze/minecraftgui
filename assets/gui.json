@@ -1,7 +1,7 @@
 [
 	{
 		"name": "main-menu",
-		"background": "gui/options_background.png",
+		"background": true,
 		"components": [
 			{
 				"type": "Image",

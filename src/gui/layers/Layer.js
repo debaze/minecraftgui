@@ -1,4 +1,4 @@
-import {Instance, TEXTURE_PATH, GUI, Color} from "../../index.js";
+import {Instance, TEXTURE_PATH, GUI, Color, BackgroundLayer} from "../../index.js";
 import {log} from "../../utils/index.js";
 
 /**
@@ -9,10 +9,10 @@ import {log} from "../../utils/index.js";
  * @param	{array}		[size=[GUI.width, GUI.height]]	Width & height
  * @param	{boolean}	[visible=true]					Visibility state
  * @param	{number}	[z=1]							Z-index (the farther, the nearest)
- * @param	{Color}		[background]					Background image, repeated from the top left (doesn't need to be loaded)
+ * @param	{boolean}	[background=false]				Indicates whether the layer has a background pattern preset
  * @param	{array}		[components=[]]					Component list (can be managed later with add())
  */
-export function Layer({name, size = [GUI.width, GUI.height], visible = true, z = 1, background, components = []}) {
+export function Layer({name, size = [GUI.width, GUI.height], visible = true, z = 1, background = false, components = []}) {
 	if (!name) return log("system.error.untitled_layer");
 
 	let [width, height] = size;
@@ -104,14 +104,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	};
 
 	this.draw = () => {
-		if (this.background) {
-			if (this.background instanceof Color) this.canvas.style.background = this.background.hex;
-			else {
-				this.canvas.style.background = `url(${TEXTURE_PATH + this.background})`;
-				this.canvas.style.backgroundSize = "64px";
-				this.canvas.style.imageRendering = "pixelated";
-			}
-		}
+		if (this.background) BackgroundLayer.show();
 
 		for (const component of this.components) {
 			component.visible && component.draw();
