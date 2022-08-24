@@ -46,7 +46,7 @@ loadingScreen.compute().draw();
 loader.bind(progress);
 await loader.load(...Config.SECONDARY_SOURCES);
 
-BackgroundLayer.init();
+// BackgroundLayer.init();
 
 const
 	layers = await loader.loadLayers(Config.gui),
@@ -61,7 +61,3 @@ version.format();
 // Show the main menu while the loading screen is faded out
 mainMenu.compute().draw();
 loadingScreen.toggle(2000, 500);
-
-
-
-// The top-left pixel of the option layer has the color #2e2117 (current is #b9855c) (25%?)

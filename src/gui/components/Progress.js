@@ -19,9 +19,8 @@ export function Progress({length, percent = 0}) {
 
 	this.compute = this.computePosition;
 
-	this.draw = () => {
+	this.draw = ctx => {
 		const
-			{ctx} = this.layer,
 			{x, y} = this,
 			[w, h] = this.size;
 

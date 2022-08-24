@@ -48,7 +48,7 @@ export function Loader() {
 			for (const i in layer.components) {
 				let component = layer.components[i];
 
-				layer.components[i] = new Component[component.type](component);
+				layer.components[i] = new Component[component.class](component);
 			}
 
 			layer = new Layer(layer);

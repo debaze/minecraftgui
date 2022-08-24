@@ -25,10 +25,9 @@ export function Image({size, source, uv = [0, 0], scale = 1}) {
 		this.computePosition();
 	};
 
-	this.draw = () => {
+	this.draw = ctx => {
 		if (TEXTURES[this.source]) {
 			const
-				ctx = this.layer.ctx,
 				{x, y, scale} = this,
 				[w, h] = this.size,
 				[u, v] = this.uv;

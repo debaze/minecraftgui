@@ -58,9 +58,8 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 		this.computePosition();
 	};
 
-	this.draw = () => {
+	this.draw = ctx => {
 		const
-			{ctx} = this.layer,
 			{bctx} = TextBuffer,
 			{symbols, symbolHeight} = Font,
 			{x, y} = this,
@@ -109,12 +108,21 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			uw = this.textSize[0] + fs,
 			uh = fs;
 
-		if (this.hovered) {
-			ctx.fillStyle = this.textColor.foreground;
-			ctx.fillRect(ux, uy, uw, uh);
+		ctx.fillStyle = this.textColor.foreground;
+		ctx.fillRect(ux, uy, uw, uh);
 
-			ctx.fillStyle = this.textColor.background;
-			ctx.fillRect(ux + fs, uy + fs, uw, uh);
-		} else ctx.clearRect(ux, uy, uw + fs, uh * 2);
+		ctx.fillStyle = this.textColor.background;
+		ctx.fillRect(ux + fs, uy + fs, uw, uh);
+	};
+
+	this.unhover = ctx => {
+		const
+			fs = this.fontSize,
+			ux = this.x - fs,
+			uy = this.y + this.textSize[1],
+			uw = this.textSize[0] + fs,
+			uh = fs;
+
+		ctx.clearRect(ux, uy, uw + fs, uh * 2);
 	};
 };

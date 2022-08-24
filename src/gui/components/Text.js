@@ -301,14 +301,13 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow 
 
 	this.compute = this.computePosition;
 
-	this.draw = () => {
+	this.draw = ctx => {
 		if (!this.chars?.length) return;
 
 		const
 			bw = this.textSize[0] * this.fontSize,
 			bh = (this.textSize[1] + 1) * this.fontSize,
 			ch = Font.symbolHeight,
-			{ctx} = this.layer,
 			fs = this.fontSize,
 			[pt, pr, pb, pl] = this.padding,
 			{x, y, chars} = this,

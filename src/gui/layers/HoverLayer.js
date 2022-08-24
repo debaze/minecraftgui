@@ -14,4 +14,22 @@ export const HoverLayer = {
 
 		document.body.appendChild(this.canvas);
 	},
+	hoveredComponents: new Set(),
+	drawHovered: function(component) {
+		this.hoveredComponents.add(component);
+
+		component.hover(this.ctx);
+	},
+	clearHovered: function(component) {
+		this.hoveredComponents.delete(component);
+
+		component.unhover(this.ctx);
+	},
+	clearAllHovered: function() {
+		for (const component of this.hoveredComponents) {
+			component.hovered = false;
+
+			this.clearHovered(component);
+		}
+	},
 };

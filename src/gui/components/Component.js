@@ -49,16 +49,18 @@ export function Component({name = "", align, margin = [0, 0], visible = true}) {
 			case "hover":
 				layer.canvas.addEventListener("mousemove", e => {
 					const
-						{ctx} = HoverLayer,
-						{scale} = GUI,
 						{x, y} = this,
 						[w, h] = this.size,
-						hovered = Utils.intersect([e.x, e.y], [x * scale, y * scale, (x + w) * scale, (y + h) * scale]);
+						{scale} = GUI,
+						hovered = Utils.intersect(
+							[e.x, e.y],
+							[x * scale, y * scale, (x + w) * scale, (y + h) * scale],
+						);
 					
 					if (this.hovered !== hovered) {
 						this.hovered = hovered;
 
-						this.hover(ctx);
+						HoverLayer[hoverStates[+this.hovered]](this);
 					}
 				});
 
@@ -72,3 +74,5 @@ export function Component({name = "", align, margin = [0, 0], visible = true}) {
 		}
 	};
 };
+
+let hoverStates = ["clearHovered", "drawHovered"];

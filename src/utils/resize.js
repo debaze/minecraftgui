@@ -2,6 +2,9 @@ import {Instance, GUI, HoverLayer} from "../index.js";
 
 /**
  * Stretches the layers to the GUI size and scales them.
+ * 
+ * On resize:
+ * - All the currently hovered components are cleared on the HoverLayer
  */
 export function resize() {
 	GUI.width = Math.ceil(innerWidth / 2) * 2;
@@ -18,7 +21,9 @@ export function resize() {
 	}
 	i = undefined;
 
-	// HoverLayer.stretch();
+	// Erase the hovered components
+	HoverLayer.clearAllHovered();
+
 	const layers = Object.values(GUI.layers);
 	for (const layer of layers) {
 		layer.stretch();
