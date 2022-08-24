@@ -1,13 +1,17 @@
-import {GUI} from "../../index.js";
+import {Instance, GUI} from "../../index.js";
 
-export const HoverLayer = {};
-HoverLayer.canvas = document.createElement("canvas");
-HoverLayer.canvas.className = "hoverLayer";
-HoverLayer.ctx = HoverLayer.canvas.getContext("2d");
-HoverLayer.ctx.imageSmoothingEnabled = false;
-HoverLayer.stretch = (width = GUI.width, height = GUI.height) => {
-	Object.assign(HoverLayer, {width, height});
+export const HoverLayer = {
+	canvas: document.createElement("canvas"),
+	init: function() {
+		this.width = GUI.width;
+		this.height = GUI.height;
+		this.canvas.className = "hover";
+		this.canvas.width = Instance.data.gui.max_width;
+		this.canvas.height = Instance.data.gui.max_height;
+		this.ctx = this.canvas.getContext("2d");
+		this.ctx.imageSmoothingEnabled = false;
+		this.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
 
-	return this;
+		document.body.appendChild(this.canvas);
+	},
 };
-document.body.appendChild(HoverLayer.canvas);

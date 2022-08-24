@@ -1,13 +1,13 @@
-import {Instance, TEXTURES, GUI} from "../../index.js";
+import {Instance, GUI, TEXTURES} from "../../index.js";
 
 export const BackgroundLayer = {
 	canvas: document.createElement("canvas"),
 	init: function() {
 		this.width = GUI.width;
 		this.height = GUI.height;
+		this.canvas.className = "option-background";
 		this.canvas.width = Instance.data.gui.max_width;
 		this.canvas.height = Instance.data.gui.max_height;
-		this.canvas.style.zIndex = 0;
 		this.ctx = this.canvas.getContext("2d");
 		this.ctx.imageSmoothingEnabled = false;
 		this.ctx.setTransform(GUI.scale * 2, 0, 0, GUI.scale * 2, 0, 0);

@@ -52,10 +52,7 @@ export const Instance = {
 	init: function() {
 		document.title = `${this.name} ${this.version.join(".")}`;
 
-		HoverLayer.canvas.width = this.data.gui.max_width;
-		HoverLayer.canvas.height = this.data.gui.max_height;
-		HoverLayer.stretch();
-		HoverLayer.ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
+		HoverLayer.init();
 	},
 	setup: async function(settings) {
 		// Setting: "Language"

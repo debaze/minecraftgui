@@ -18,7 +18,7 @@ export function resize() {
 	}
 	i = undefined;
 
-	HoverLayer.stretch();
+	// HoverLayer.stretch();
 	const layers = Object.values(GUI.layers);
 	for (const layer of layers) {
 		layer.stretch();
