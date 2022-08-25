@@ -1,7 +1,7 @@
 import {Instance, Loader, BackgroundLayer, Layer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
 import Config from "./config.js";
 
-const {symbols, colors} = await (await fetch(Config.font)).json();
+const {symbols, colors} = await (await fetch("assets/font/default.json")).json();
 Object.assign(Font, {symbols, colors});
 
 const settings = await (await fetch("public/settings.json")).json();
@@ -13,7 +13,8 @@ Utils.resize();
 const loader = new Loader();
 await loader.load(...Config.PRIMARY_SOURCES);
 
-let progress = new Component.Progress({
+const
+	progress = new Component.Progress({
 		align: ["center", "bottom"],
 		margin: [0, 86],
 		length: 536,
@@ -23,6 +24,7 @@ let progress = new Component.Progress({
 		z: 10,
 		components: [
 			new Component.Image({
+				visible: false,
 				align: ["center", "center"],
 				margin: [-128, 0],
 				size: [256, 128],
@@ -30,6 +32,7 @@ let progress = new Component.Progress({
 				scale: 0.5,
 			}),
 			new Component.Image({
+				visible: false,
 				align: ["center", "center"],
 				margin: [128, 0],
 				size: [256, 128],
@@ -46,10 +49,10 @@ loadingScreen.compute().draw();
 loader.bind(progress);
 await loader.load(...Config.SECONDARY_SOURCES);
 
-// BackgroundLayer.init();
+BackgroundLayer.init();
 
 const
-	layers = await loader.loadLayers(Config.gui),
+	layers = await loader.loadLayers("assets/gui.json"),
 	mainMenu = layers["main-menu"];
 
 // Prepare the main menu before fading out the loading screen

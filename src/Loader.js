@@ -1,4 +1,4 @@
-import {GUI, TEXTURE_PATH, Config, TEXTURES, Color, Component, Layer, Utils} from "./index.js";
+import {GUI, TEXTURE_PATH, TEXTURES, Component, Layer, Utils} from "./index.js";
 import {log} from "./utils/index.js";
 
 export function Loader() {
@@ -73,12 +73,12 @@ export function Loader() {
 	 * @param	{...string}	Sources to unload
 	 */
 	this.unload = async (...sources) => {
-		if (!TEXTURES[Config.white]) return console.error("The unload texture was not found.");
+		if (!TEXTURES["misc/white.png"]) return console.error("The unload texture was not found.");
 
 		sources = new Set(sources);
 
 		for (const source of sources) {
-			TEXTURES[source].src = TEXTURE_PATH + Config.white;
+			TEXTURES[source].src = TEXTURE_PATH + "misc/white.png";
 
 			await TEXTURES[source].decode();
 

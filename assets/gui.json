@@ -5,12 +5,14 @@
 		"components": [
 			{
 				"class": "Image",
+				"visible": false,
 				"align": ["center", "top"],
 				"margin": [-59, 30],
 				"size": [156, 44],
 				"source": "gui/title/minecraft.png"
 			}, {
 				"class": "Image",
+				"visible": false,
 				"align": ["center", "top"],
 				"margin": [78, 30],
 				"size": [118, 44],

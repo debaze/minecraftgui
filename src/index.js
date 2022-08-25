@@ -1,7 +1,6 @@
 import Config from "../public/config.js";
-import {BackgroundLayer, HoverLayer} from "./gui/layers/index.js";
+import {HoverLayer} from "./gui/layers/index.js";
 
-export {Config};
 export {BackgroundLayer, HoverLayer, Layer} from "./gui/layers/index.js";
 export {Component} from "./gui/components/index.js";
 export {TextBuffer} from "./gui/buffers/index.js";
