@@ -1,5 +1,5 @@
-import {Instance, TEXTURE_PATH, GUI, Color, BackgroundLayer} from "../../index.js";
-import {log} from "../../utils/index.js";
+import {Instance, GUI, BackgroundLayer, HoverLayer} from "../../index.js";
+import {intersect} from "../../utils/index.js";
 
 /**
  * Layer constructor.
@@ -8,26 +8,46 @@ import {log} from "../../utils/index.js";
  * @param	{string}	name							Layer name (must be unique)
  * @param	{array}		[size=[GUI.width, GUI.height]]	Width & height
  * @param	{boolean}	[visible=true]					Visibility state
- * @param	{number}	[z=1]							Z-index (the farther, the nearest)
  * @param	{boolean}	[background=false]				Indicates whether the layer has a background pattern preset
  * @param	{array}		[components=[]]					Component list (can be managed later with add())
+ * 
+ * @todo	Clickable components
  */
-export function Layer({name, size = [GUI.width, GUI.height], visible = true, z = 1, background = false, components = []}) {
-	if (!name) return log("system.error.untitled_layer");
-
+export function Layer({name, size = [GUI.width, GUI.height], visible = true, background = false, components = []}) {
 	let [width, height] = size;
 
-	Object.assign(this, {name, width, height, visible, z, background});
+	Object.assign(this, {name, width, height, visible, background});
 
 	this.components = new Set();
+	this.hoverableComponents = new Set();
+	this.clickableComponents = new Set();
 
 	const canvas = document.createElement("canvas");
 	name && (canvas.classList.add(name));
 	canvas.width = Instance.data.gui.max_width;
 	canvas.height = Instance.data.gui.max_height;
-	Object.assign(canvas.style, {
-		opacity: +this.visible,
-		zIndex: this.z,
+	canvas.style.opacity = +this.visible;
+	canvas.addEventListener("mousemove", e => {
+		const {scale} = GUI;
+		let component, x, y, w, h, hovered;
+
+		for (component of this.hoverableComponents) {
+			({x, y} = component);
+			[w, h] = component.size;
+			hovered = intersect([e.x, e.y], [x, y, w, h]);
+			
+			if (component.hovered !== hovered) {
+				component.hovered = hovered;
+
+				HoverLayer[hoverStates[+component.hovered]](component);
+			}
+		}
+	});
+	canvas.addEventListener("mousedown", e => {
+		const {scale} = GUI;
+		let component, x, y, w, h, hovered;
+
+		for (component of this.clickableComponents) {}
 	});
 
 	const ctx = canvas.getContext("2d");
@@ -74,6 +94,9 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	this.remove = (...components) => {
 		for (const component of components) {
 			this.components.delete(component);
+			this.hoverableComponents.delete(component);
+			this.clickableComponents.delete(component);
+
 			component.layer = null;
 		}
 
@@ -81,8 +104,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	};
 
 	/**
-	 * Returns the component with the given name.
-	 * NOTE: Please choose unique names for each of your components.
+	 * Returns the first component found with the given name.
 	 * 
 	 * @param	{string}	name
 	 * @returns	{Component}
@@ -98,13 +120,22 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	};
 
 	this.erase = () => {
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		let x, y, w, h;
+
+		for (const component of this.components) {
+			if (component.visible) {
+				({x, y} = component);
+				[w, h] = component.size;
+
+				this.ctx.clearRect(x, y, w, h);
+			}
+		}
 
 		return this;
 	};
 
 	this.draw = () => {
-		// if (this.background) BackgroundLayer.show();
+		this.background && BackgroundLayer.show();
 
 		for (const component of this.components) {
 			component.visible && component.draw(this.ctx);
@@ -113,11 +144,13 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 		return this;
 	};
 
-	this.redraw = () => this.erase().draw();
-
 	GUI.layers[this.name] = this;
+
 	this.add(...components);
+
 	document.body.appendChild(this.canvas);
 };
 
-let pointerEvents = ["none", "auto"];
+const
+	hoverStates = ["clearHovered", "drawHovered"],
+	pointerEvents = ["none", "auto"];

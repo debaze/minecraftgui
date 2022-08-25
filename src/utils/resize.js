@@ -25,8 +25,9 @@ export function resize() {
 	HoverLayer.clearAllHovered();
 
 	const layers = Object.values(GUI.layers);
+
 	for (const layer of layers) {
-		layer.stretch();
+		layer.stretch().erase();
 	}
 
 	if (GUI.previousScale !== GUI.scale) {
@@ -38,5 +39,9 @@ export function resize() {
 		for (const layer of layers) {
 			layer.ctx.setTransform(...transform);
 		}
+	}
+
+	for (const layer of layers) {
+		layer.compute().draw();
 	}
 };

@@ -5,6 +5,7 @@ export const BackgroundLayer = {
 	init: function() {
 		this.resize();
 		this.canvas.className = "option-background";
+		this.canvas.style.visibility = "hidden";
 		this.canvas.width = Instance.data.gui.max_width;
 		this.canvas.height = Instance.data.gui.max_height;
 		this.ctx = this.canvas.getContext("2d");

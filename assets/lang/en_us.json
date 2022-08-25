@@ -1,7 +1,6 @@
 {
 	"system.error.invalid_hexadecimal":					"Colors only support 6 digit hex codes.",
-	"system.error.need_alignment":						"Tried to instantiate a Compoentn without the `alignment` option.",
-	"system.error.untitled_layer":						"A name must be provided when instantiating a layer.",
+	"system.error.component_invalid_alignment":			"Invalid `alignment` value bound to %s.",
 	"system.error.cant_compute_unlayered_component":	"Unable to compute a component which doesn't belong to a layer.",
 	"system.error.event_on_unlayered_component":		"Unable to register an event for this component, because it doesn't belong to a layer.",
 	"system.error.invalid_text":						"Received a non-string value for a Text component.",

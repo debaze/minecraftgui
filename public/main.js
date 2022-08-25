@@ -22,10 +22,8 @@ const
 	}),
 	loadingScreen = new Layer({
 		name: "mojang-loading-screen",
-		z: 10,
 		components: [
 			new Component.Image({
-				visible: false,
 				align: ["center", "center"],
 				margin: [-128, 0],
 				size: [256, 128],
@@ -33,7 +31,6 @@ const
 				scale: 0.5,
 			}),
 			new Component.Image({
-				visible: false,
 				align: ["center", "center"],
 				margin: [128, 0],
 				size: [256, 128],
@@ -44,6 +41,7 @@ const
 			progress,
 		],
 	});
+loadingScreen.canvas.style.zIndex = 10;
 loadingScreen.canvas.style.backgroundColor = new Color(Config.mojangBackground).hex;
 loadingScreen.compute().draw();
 
@@ -63,5 +61,4 @@ version.format();
 // Show the main menu while the loading screen is faded out
 BackgroundLayer.draw();
 mainMenu.compute().draw();
-// loadingScreen.toggle(2000, 500);
-loadingScreen.toggle();
+loadingScreen.toggle(2000, 500);

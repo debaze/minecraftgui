@@ -58,7 +58,7 @@ export function TextButton({width = INITIAL_WIDTH, text, color = "white", disabl
 		this.textSize = [w, h];
 
 		this.textOffset = [
-			(this.size[0] - this.textSize[0]) / 2,
+			Math.ceil((this.size[0] - this.textSize[0]) / 2),
 			(this.size[1] - this.textSize[1]) / 2,
 		];
 
@@ -124,17 +124,16 @@ export function TextButton({width = INITIAL_WIDTH, text, color = "white", disabl
 
 			if (this.color) {
 				bctx.globalCompositeOperation = "source-atop";
-				bctx.fillStyle = this.color.foreground;
+				bctx.fillStyle = this.color.background;
 				bctx.fillRect(0, 0, tw, th);
 			}
 
-			ctx.drawImage(TextBuffer, x + tx, y + ty);
+			ctx.drawImage(TextBuffer, x + tx + 1, y + ty + 1);
 
-			bctx.fillStyle = this.color.background;
+			bctx.fillStyle = this.color.foreground;
 			bctx.fillRect(0, 0, tw, th);
 
-			ctx.globalCompositeOperation = "destination-over";
-			ctx.drawImage(TextBuffer, x + tx + 1, y + ty + 1);
+			ctx.drawImage(TextBuffer, x + tx, y + ty);
 		}
 	};
 

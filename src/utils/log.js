@@ -1,13 +1,19 @@
 import {Instance} from "../index.js";
 
-export function log(id) {
-	const message = Instance.data.lang[id];
+export function log(id, formatters) {
+	let message = Instance.data.lang[id];
 
-	if (!message) return console.error("This message was not found in the .lang file.");
+	if (!message) return console.error("Log message not found");
 
-	const error = id.includes(".error.");
+	if (formatters) {
+		formatters = Object.entries(formatters);
 
-	console[types[+error]](message);
+		for (const [formatter, value] of formatters) {
+			message = message.replaceAll(formatter, value);
+		}
+	}
+
+	console[types[+id.includes(".error.")]](message);
 };
 
 let types = ["log", "error"];

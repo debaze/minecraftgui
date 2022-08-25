@@ -1,5 +1,5 @@
-import {GUI, TEXTURE_PATH, TEXTURES, Component, BackgroundLayer, Layer, Utils} from "./index.js";
-import {log} from "./utils/index.js";
+import {GUI, TEXTURE_PATH, TEXTURES, Component, BackgroundLayer, Layer} from "./index.js";
+import {debounce, log, resize} from "./utils/index.js";
 
 export function Loader() {
 	this.progress = null;
@@ -54,14 +54,9 @@ export function Loader() {
 			layer = new Layer(layer);
 		}
 
-		addEventListener("resize", () => Utils.debounce(() => {
-			Utils.resize();
+		addEventListener("resize", () => debounce(() => {
+			resize();
 			BackgroundLayer.resize();
-
-			const layers = Object.values(GUI.layers);
-			for (const layer of layers) {
-				layer.compute().redraw();
-			}
 			BackgroundLayer.draw();
 		}, 50));
 

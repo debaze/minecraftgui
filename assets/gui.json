@@ -1,7 +1,6 @@
 [
 	{
 		"name": "main-menu",
-		"background": true,
 		"components": [
 			{
 				"class": "Image",
@@ -34,11 +33,10 @@
 				"text": "Copyright Mojang AB. Do not distribute!"
 			}, {
 				"class": "TextButton",
-				"align": ["left", "top"],
-				"margin": [4, 4],
-				"width": 200,
-				"text": "abc",
-				"color": "red"
+				"align": ["center", "center"],
+				"width": 74,
+				"text": "> Not bound <",
+				"color": "yellow"
 			}
 		]
 	}

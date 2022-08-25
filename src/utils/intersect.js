@@ -1,17 +1,26 @@
+import {GUI} from "../index.js";
+
 /**
- * Verifies if the (x, y) is inside the rectangle of size (x2, y2) with (x1, y1) as the top-left corner.
+ * Verifies if the point (ex, ey) is inside the rectangle of size (w, h) at the positioon (x, y) (top-left corner).
  * 
+ * @param	{number}	ex
+ * @param	{number}	ey
  * @param	{number}	x
  * @param	{number}	y
- * @param	{number}	x1
- * @param	{number}	y1
- * @param	{number}	x2
- * @param	{number}	y2
+ * @param	{number}	w
+ * @param	{number}	h
  * @returns	{boolean}
  */
-export const intersect = ([x, y], [x1, y1, x2, y2]) => (
-	x >= x1 &&
-	x < x2 &&
-	y >= y1 &&
-	y < y2
-);
+export function intersect([ex, ey], [x, y, w, h]) {
+	const {scale} = GUI;
+
+	ex /= scale;
+	ey /= scale;
+
+	return (
+		ex >= x &&
+		ex < x + w &&
+		ey >= y &&
+		ey < y + h
+	);
+};
