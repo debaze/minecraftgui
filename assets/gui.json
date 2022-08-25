@@ -21,17 +21,24 @@
 			}, {
 				"class": "Text",
 				"name": "version",
+				"visible": false,
 				"align": ["left", "bottom"],
 				"margin": [2, 2]
 			}, {
 				"class": "Link",
+				"name": "copyright",
+				"visible": false,
 				"align": ["right", "bottom"],
 				"margin": [2, 0],
 				"padding": [0, 0, 2, 0],
 				"text": "Copyright Mojang AB. Do not distribute!"
 			}, {
 				"class": "TextButton",
-				"align": ["center", "center"]
+				"align": ["left", "top"],
+				"margin": [4, 4],
+				"width": 200,
+				"text": "abc",
+				"color": "red"
 			}
 		]
 	}

@@ -9,6 +9,7 @@ Instance.init();
 await Instance.setup(settings);
 
 Utils.resize();
+BackgroundLayer.init();
 
 const loader = new Loader();
 await loader.load(...Config.PRIMARY_SOURCES);
@@ -49,8 +50,6 @@ loadingScreen.compute().draw();
 loader.bind(progress);
 await loader.load(...Config.SECONDARY_SOURCES);
 
-BackgroundLayer.init();
-
 const
 	layers = await loader.loadLayers("assets/gui.json"),
 	mainMenu = layers["main-menu"];
@@ -62,5 +61,7 @@ version.text = `${Instance.name} ${Instance.version.join(".")}`;
 version.format();
 
 // Show the main menu while the loading screen is faded out
+BackgroundLayer.draw();
 mainMenu.compute().draw();
-loadingScreen.toggle(2000, 500);
+// loadingScreen.toggle(2000, 500);
+loadingScreen.toggle();

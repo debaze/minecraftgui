@@ -1,6 +1,5 @@
 import {Component} from "./Component.js";
-import {log} from "../../utils/index.js";
-import {GUI, TEXTURES} from "../../index.js";
+import {TEXTURES, Font, TextBuffer} from "../../index.js";
 
 const
 	INITIAL_WIDTH = 200,
@@ -17,24 +16,57 @@ const
  * 
  * @constructor
  * @param	{number}	[width=INITIAL_WIDTH]
+ * @param	{string}	text
+ * @param	{string}	[color="white"]
+ * @param	{boolean}	[disabled=false]
  */
-export function TextButton({width = INITIAL_WIDTH}) {
+export function TextButton({width = INITIAL_WIDTH, text, color = "white", disabled = false}) {
 	Component.call(this, ...arguments);
 
 	Object.assign(this, {
 		size: [width, HEIGHT],
 		halfWidth: width / 2,
 		texture: TEXTURES["gui/widgets.png"],
+		text,
+		color,
 		hovered: false,
+		disabled,
 	});
 
-	this.compute = () => {
-		if (this.width > 396) {
-			log("system.error.exceeded_button_width");
+	// Since the content cannot be changed, it can be computed once
+	{
+		// Multiple lines are not allowed
+		let chars = this.text.replaceAll("\n", " ").split(""),
+			w = 0,
+			h = Font.symbolHeight,
+			i;
+		this.chars = [];
 
-			this.width = INITIAL_WIDTH;
+		for (const c of chars) {
+			i = Font.symbols[c] && c;
+
+			// Store the character data
+			this.chars.push({
+				symbol: i,
+				x: w,
+			});
+
+			w += Font.symbols[i].width + Font.letterSpacing;
 		}
 
+		// Inner size (text)
+		this.textSize = [w, h];
+
+		this.textOffset = [
+			(this.size[0] - this.textSize[0]) / 2,
+			(this.size[1] - this.textSize[1]) / 2,
+		];
+
+		// Retrieve the text color from the color list
+		this.color = Font.colors[this.color];
+	}
+
+	this.compute = () => {
 		this.on("hover");
 
 		this.computePosition();
@@ -42,37 +74,78 @@ export function TextButton({width = INITIAL_WIDTH}) {
 
 	this.draw = ctx => {
 		const
-			{x, y} = this,
+			{bctx} = TextBuffer,
+			{symbols, symbolHeight} = Font,
+			{x, y, texture} = this,
+			[tx, ty] = this.textOffset,
+			[tw, th] = this.textSize,
 			hw = this.halfWidth,
 			h = this.size[1],
-			T = this.texture;
+			uv = this.disabled ? UV.DISABLED : UV.NORMAL;
+		let symbol;
 
-		ctx.drawImage(
-			T,
-			...UV.NORMAL,
-			hw, h,
-			x, y,
-			hw, h,
-		);
+		TextBuffer.resize(tw, th);
 
-		ctx.drawImage(
-			T,
-			INITIAL_WIDTH - hw, UV.NORMAL[1],
-			hw, h,
-			x + hw, y,
-			hw, h,
-		);
+		// Draw the button texture
+		{
+			ctx.drawImage(
+				texture,
+				...uv,
+				hw, h,
+				x, y,
+				hw, h,
+			);
+	
+			ctx.drawImage(
+				texture,
+				INITIAL_WIDTH - hw, uv[1],
+				hw, h,
+				x + hw, y,
+				hw, h,
+			);
+		}
+
+		// Draw the button text
+		{
+			for (const c of this.chars) {
+				symbol = symbols[c.symbol];
+	
+				bctx.drawImage(
+					TEXTURES["font/ascii.png"],
+					...symbol.uv,
+					symbol.width,
+					symbolHeight,
+					c.x,
+					0,
+					symbol.width,
+					symbolHeight,
+				);
+			}
+
+			if (this.color) {
+				bctx.globalCompositeOperation = "source-atop";
+				bctx.fillStyle = this.color.foreground;
+				bctx.fillRect(0, 0, tw, th);
+			}
+
+			ctx.drawImage(TextBuffer, x + tx, y + ty);
+
+			bctx.fillStyle = this.color.background;
+			bctx.fillRect(0, 0, tw, th);
+
+			ctx.globalCompositeOperation = "destination-over";
+			ctx.drawImage(TextBuffer, x + tx + 1, y + ty + 1);
+		}
 	};
 
 	this.hover = ctx => {
 		const
-			{x, y} = this,
+			{x, y, texture} = this,
 			hw = this.halfWidth,
-			h = this.size[1],
-			T = this.texture;
+			h = this.size[1];
 
 		ctx.drawImage(
-			T,
+			texture,
 			...UV.HOVERED,
 			hw, h,
 			x, y,
@@ -80,7 +153,7 @@ export function TextButton({width = INITIAL_WIDTH}) {
 		);
 
 		ctx.drawImage(
-			T,
+			texture,
 			INITIAL_WIDTH - hw, UV.HOVERED[1],
 			hw, h,
 			x + hw, y,

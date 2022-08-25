@@ -1,9 +1,9 @@
-import {GUI, TEXTURE_PATH, TEXTURES, Component, Layer, Utils} from "./index.js";
+import {GUI, TEXTURE_PATH, TEXTURES, Component, BackgroundLayer, Layer, Utils} from "./index.js";
 import {log} from "./utils/index.js";
 
 export function Loader() {
 	this.progress = null;
-	this.logs = true;
+	this.logs = false;
 
 	this.bind = progress => {
 		if (!(progress instanceof Component.Progress)) return log("system.error.invalid_component_type");
@@ -56,11 +56,13 @@ export function Loader() {
 
 		addEventListener("resize", () => Utils.debounce(() => {
 			Utils.resize();
+			BackgroundLayer.resize();
 
 			const layers = Object.values(GUI.layers);
 			for (const layer of layers) {
 				layer.compute().redraw();
 			}
+			BackgroundLayer.draw();
 		}, 50));
 
 		return GUI.layers;

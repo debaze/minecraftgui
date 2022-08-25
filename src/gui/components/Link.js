@@ -15,7 +15,7 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 
 	Object.assign(this, {padding, text, textColor, fontSize, hovered: false});
 
-	// Since link content cannot be changed, they can be computed once
+	// Since the cannot be changed, it can be computed once
 	{
 		// Multiple lines are not allowed
 		let chars = this.text.replaceAll("\n", " ").split(""),
@@ -63,7 +63,6 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			{bctx} = TextBuffer,
 			{symbols, symbolHeight} = Font,
 			{x, y} = this,
-			[w, h] = this.size,
 			[tw, th] = this.textSize,
 			fs = this.fontSize;
 		let symbol;

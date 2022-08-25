@@ -8,6 +8,5 @@
 	"system.error.invalid_progress_length":				"Invalid progress bar length received (0 is not accepted).",
 	"system.error.invalid_progress_percent":			"Invalid progress bar percentage value.",
 	"system.error.out_of_range_progress_percent":		"Progress bar percentage out of [0, 100].",
-	"system.error.invalid_component_type":				"Invalid component type.",
-	"system.error.exceeded_button_width":				"The width of a Button cannot exceed 396."
+	"system.error.invalid_component_type":				"Invalid component type."
 }

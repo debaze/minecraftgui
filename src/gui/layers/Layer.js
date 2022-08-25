@@ -106,10 +106,8 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, z =
 	this.draw = () => {
 		// if (this.background) BackgroundLayer.show();
 
-		const {ctx} = this;
-
 		for (const component of this.components) {
-			component.visible && component.draw(ctx);
+			component.visible && component.draw(this.ctx);
 		}
 
 		return this;
