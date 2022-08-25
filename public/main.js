@@ -1,4 +1,4 @@
-import {Instance, Loader, BackgroundLayer, Layer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
+import {Instance, Loader, BackgroundLayer, Layer, Component, Color, Font, Utils} from "../src/index.js";
 import Config from "./config.js";
 
 const {symbols, colors} = await (await fetch("assets/font/default.json")).json();

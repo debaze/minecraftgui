@@ -1,4 +1,3 @@
-// texture_list.json?
 export default {
 	PRIMARY_SOURCES: [
 		"gui/title/mojangstudios.png",

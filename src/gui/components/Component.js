@@ -16,7 +16,7 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 		align.length !== 2 ||
 		!["left", "center", "right"].includes(align[0]) ||
 		!["top", "center", "bottom"].includes(align[1])
-	) return log("system.error.component_invalid_alignment", {
+	) return log("system.error.component.invalid_alignment", {
 		"%s": this.constructor.name,
 	});
 

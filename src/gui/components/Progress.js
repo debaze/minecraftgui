@@ -5,8 +5,8 @@ import {log} from "../../utils/index.js";
  * Progress component.
  * 
  * @constructor
- * @param	{number}	length		Progress bar length, in pixels (this value doesn't take the border in account!)
- * @param	{number}	[percent=0]	Current percentage value showed on the bar
+ * @param	{number}	length		Inner length, excluding the horizontal padding
+ * @param	{number}	[percent=0]	Percentage value
  */
 export function Progress({length, percent = 0}) {
 	if (!length) return log("system.error.invalid_progress_length");
@@ -21,32 +21,32 @@ export function Progress({length, percent = 0}) {
 
 	this.draw = ctx => {
 		const
-			{x, y} = this,
+			{x, y, length, percent} = this,
 			[w, h] = this.size;
 
 		ctx.fillStyle = "#fff";
 		ctx.fillRect(x, y, w, h);
 		ctx.clearRect(x + 1, y + 1, w - 2, h - 2);
-		ctx.fillRect(x + 2, y + 2, this.length * (this.percent / 100), h - 4);
+		ctx.fillRect(x + 2, y + 2, length * (percent / 100), h - 4);
 	};
 
-	this.advance = p => {
+	this.advance = step => {
 		const
 			{ctx} = this.layer,
-			{x, y} = this,
+			{x, y, length, percent} = this,
 			[w, h] = this.size,
 			rect = [
-				x + 2 + this.length * (this.percent / 100),
+				x + 2 + length * (percent / 100),
 				y + 2,
-				this.length * (p / 100),
+				length * (step / 100),
 				h - 4,
 			];
 
-		if (p > 0) {
+		if (step > 0) {
 			ctx.fillStyle = "#fff";
 			ctx.fillRect(...rect);
 		} else ctx.clearRect(...rect);
 
-		this.percent += p;
+		this.percent += step;
 	};
 };

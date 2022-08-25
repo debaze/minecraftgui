@@ -5,35 +5,29 @@ import {TEXTURES} from "../../index.js";
  * Image component.
  * 
  * @constructor
- * @param	{array}		[size]		Width & height
- * @param	{string}	[source]	Image path
- * @param	{array}		[uv=[0, 0]]	Image UV
- * @param	{number}	[scale=1]	Scale of the source image
+ * @param	{array}		size		Width & height
+ * @param	{string}	[source]	Image path (must be loaded before draw)
+ * @param	{array}		[uv=[0, 0]]	Image UVs
+ * @param	{number}	[scale=1]	Scale multiplier
  */
 export function Image({size, source, uv = [0, 0], scale = 1}) {
 	Component.call(this, ...arguments);
 
 	Object.assign(this, {size, source, uv, scale});
 
-	this.compute = () => {
-		if (!this.size && TEXTURES[this.source]) {
-			const image = TEXTURES[this.source];
-
-			this.size = [image.width, image.height];
-		}
-
-		this.computePosition();
-	};
+	this.compute = this.computePosition;
 
 	this.draw = ctx => {
-		if (TEXTURES[this.source]) {
+		const texture = TEXTURES[this.source];
+
+		if (texture) {
 			const
 				{x, y, scale} = this,
 				[w, h] = this.size,
 				[u, v] = this.uv;
 
 			ctx.drawImage(
-				TEXTURES[this.source],
+				texture,
 				u, v,
 				w / scale, h / scale,
 				x, y,
