@@ -139,25 +139,65 @@ export function TextButton({width = INITIAL_WIDTH, text, color = "white", disabl
 
 	this.hover = ctx => {
 		const
+			{bctx} = TextBuffer,
+			{symbols, symbolHeight} = Font,
 			{x, y, texture} = this,
+			[tx, ty] = this.textOffset,
+			[tw, th] = this.textSize,
 			hw = this.halfWidth,
-			h = this.size[1];
+			h = this.size[1],
+			uv = this.disabled ? UV.DISABLED : UV.HOVERED;
+		let symbol;
 
-		ctx.drawImage(
-			texture,
-			...UV.HOVERED,
-			hw, h,
-			x, y,
-			hw, h,
-		);
+		// Draw the button texture
+		{
+			ctx.drawImage(
+				texture,
+				...uv,
+				hw, h,
+				x, y,
+				hw, h,
+			);
 
-		ctx.drawImage(
-			texture,
-			INITIAL_WIDTH - hw, UV.HOVERED[1],
-			hw, h,
-			x + hw, y,
-			hw, h,
-		);
+			ctx.drawImage(
+				texture,
+				INITIAL_WIDTH - hw, uv[1],
+				hw, h,
+				x + hw, y,
+				hw, h,
+			);
+		}
+
+		// Draw the button text
+		{
+			for (const c of this.chars) {
+				symbol = symbols[c.symbol];
+	
+				bctx.drawImage(
+					TEXTURES["font/ascii.png"],
+					...symbol.uv,
+					symbol.width,
+					symbolHeight,
+					c.x,
+					0,
+					symbol.width,
+					symbolHeight,
+				);
+			}
+
+			if (this.color) {
+				bctx.globalCompositeOperation = "source-atop";
+				bctx.fillStyle = this.color.background;
+				bctx.fillRect(0, 0, tw, th);
+			}
+
+			ctx.drawImage(TextBuffer, x + tx + 1, y + ty + 1);
+
+			bctx.fillStyle = this.color.foreground;
+			bctx.fillRect(0, 0, tw, th);
+
+			ctx.drawImage(TextBuffer, x + tx, y + ty);
+		}
 	};
 
 	this.unhover = ctx => {

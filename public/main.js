@@ -24,6 +24,7 @@ const
 		name: "mojang-loading-screen",
 		components: [
 			new Component.Image({
+				visible: false,
 				align: ["center", "center"],
 				margin: [-128, 0],
 				size: [256, 128],
@@ -31,6 +32,7 @@ const
 				scale: 0.5,
 			}),
 			new Component.Image({
+				visible: false,
 				align: ["center", "center"],
 				margin: [128, 0],
 				size: [256, 128],
