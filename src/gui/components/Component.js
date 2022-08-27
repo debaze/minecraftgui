@@ -24,7 +24,16 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	Object.assign(this, {name, visible, align, margin});
 
 	/**
+	 * Customizable modifier for the component draw() function.
+	 * 
+	 * @abstract
+	 * @param	{CanvasRenderingContext2D}	ctx	Layer context
+	 */
+	this.drawModifier = ctx => {};
+
+	/**
 	 * Calculates the absolute component position from its alignment/margin.
+	 * When finished, the coordinates of the top-left corner will be added as X and Y to the component.
 	 */
 	this.computePosition = () => {
 		const {layer} = this.group ?? this;
@@ -110,7 +119,7 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 
 				break;
 			case "click":
-				layer.clickableComponents.add(this);
+				layer.clickableComponents.set(this, callback);
 
 				break;
 		}

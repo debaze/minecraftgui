@@ -24,7 +24,7 @@ export function Group({name, visible = true, align, margin = [0, 0], size, compo
 		align,
 		margin,
 		size,
-		components: new Set(components),
+		components: new Set(),
 	});
 
 	/**

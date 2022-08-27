@@ -7,7 +7,7 @@ import {TEXTURES} from "../../index.js";
  * @constructor
  * @param	{array}		size		Width & height
  * @param	{string}	[source]	Image path (must be loaded before draw)
- * @param	{array}		uv			Image UVs
+ * @param	{array}		uv			Image UV
  * @param	{number}	[scale=1]	Scale multiplier
  */
 export function Image({size, source, uv, scale = 1}) {
@@ -34,5 +34,7 @@ export function Image({size, source, uv, scale = 1}) {
 				w, h,
 			);
 		}
+
+		this.drawModifier(ctx);
 	};
 };

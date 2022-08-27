@@ -7,7 +7,7 @@ import {TEXTURES} from "../../index.js";
  * @constructor
  * @param	{number}	width
  * @param	{string}	[source]	Image path (must be loaded before draw)
- * @param	{array}		uv			Image UVs
+ * @param	{array}		uv			Image UV
  */
 export function ImageButton({width, source, uv}) {
 	Component.call(this, ...arguments);

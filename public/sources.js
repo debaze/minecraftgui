@@ -5,6 +5,7 @@ export default {
 	SECONDARY_SOURCES: [
 		"font/ascii.png",
 		"gui/title/minecraft.png",
+		"gui/title/edition.png",
 		"gui/options_background.png",
 		"gui/widgets.png",
 		"gui/accessibility.png",

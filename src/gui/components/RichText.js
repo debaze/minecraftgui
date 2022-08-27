@@ -3,7 +3,7 @@ import {TEXTURES, Font} from "../../index.js";
 import {log} from "../../utils/index.js";
 
 /**
- * Text component.
+ * Rich text component.
  * NOTE: Please avoid using floats for the arguments which require numbers. This can cause color spreading.
  * 
  * @constructor
@@ -16,7 +16,7 @@ import {log} from "../../utils/index.js";
  * @param	{number}	[lineSpacing=1]			Line spacing value
  * @param	{number}	[boldWeight=1]			Bold weight value (0 means the weight will be regular)
  */
-export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow = true, fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
+export function RichText({padding = [0, 0, 0, 0], background, text = "", dropShadow = true, fontSize = 1, letterSpacing = 1, lineSpacing = 1, boldWeight = 1}) {
 	Component.call(this, ...arguments);
 
 	if (typeof text !== "string") return log("system.error.invalid_text");

@@ -6,34 +6,32 @@ import {intersect} from "../../utils/index.js";
  * Global Layer.
  * 
  * @constructor
- * @param	{string}	name													Layer name (must be unique)
- * @param	{array}		[size=[Instance.window.width, Instance.window.height]]	Width & height
- * @param	{boolean}	[visible=true]											Determines the layer visibility state
- * @param	{boolean}	[background=false]										Indicates whether the layer has a background pattern preset
- * @param	{array}		[components=[]]											Component list
- * 
- * @todo	Groups
- * @todo	Clickable components
+ * @param	{string}	name				Layer name (must be unique)
+ * @param	{array}		[size]				Width & height (size of the instance window by default)
+ * @param	{boolean}	[visible=true]		Determines the layer visibility state
+ * @param	{boolean}	[background=false]	Indicates whether the layer has a background pattern preset (in reflection)
+ * @param	{array}		[components=[]]		Component list
  */
 export function Layer({name, size = [Instance.window.width, Instance.window.height], visible = true, background = false, components = []}) {
-	let [width, height] = size;
+	const [width, height] = size;
 
 	Object.assign(this, {name, width, height, visible, background});
 
 	this.components = new Set();
 	this.hoverableComponents = new Set();
-	this.clickableComponents = new Set();
+	this.clickableComponents = new Map();
 
 	const canvas = document.createElement("canvas");
-	name && (canvas.classList.add(name));
+	canvas.classList.toggle(name, name);
 	canvas.width = Instance.window.max_width;
 	canvas.height = Instance.window.max_height;
 	canvas.style.opacity = +this.visible;
+	canvas.style.pointerEvents = pointerEvents[+this.visible];
 	canvas.addEventListener("mousemove", e => {
 		const {scale} = Instance.gui;
 		let component, x, y, w, h, hovered;
 
-		for (const component of this.hoverableComponents) {
+		for (component of this.hoverableComponents) {
 			({x, y} = component);
 			[w, h] = component.size;
 			hovered = intersect([e.x, e.y], [x, y, w, h]);
@@ -45,11 +43,17 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 			}
 		}
 	});
-	canvas.addEventListener("mousedown", e => {
-		const {scale} = Instance.gui;
-		let component, x, y, w, h, hovered;
 
-		for (const component of this.clickableComponents) {}
+	/**
+	 * Click (mousedown) layer event.
+	 * NOTE: This event uses the `hovered` property, which may not be manually updated.
+	 */
+	canvas.addEventListener("mousedown", e => {
+		let component, callback;
+
+		for ([component, callback] of this.clickableComponents) {
+			component.hovered && callback();
+		}
 	});
 
 	const ctx = canvas.getContext("2d");
@@ -145,8 +149,6 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 	};
 
 	this.draw = () => {
-		this.background && BackgroundLayer.show();
-
 		for (const component of this.components) {
 			component.visible && component.draw(this.ctx);
 		}

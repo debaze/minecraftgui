@@ -6,9 +6,9 @@ body {
 
 canvas {
 	position: absolute;
+	pointer-events: none;
 }
 
 canvas.hover {
-	pointer-events: none;
 	z-index: 2;
 }

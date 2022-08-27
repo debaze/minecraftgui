@@ -4,6 +4,7 @@
 		"components": [
 			{
 				"class": "Image",
+				"name": "title_left",
 				"align": ["center", "top"],
 				"margin": [-59, 30],
 				"size": [156, 44],
@@ -11,13 +12,22 @@
 				"uv": [0, 0]
 			}, {
 				"class": "Image",
+				"name": "title_right",
 				"align": ["center", "top"],
 				"margin": [78, 30],
 				"size": [118, 44],
 				"source": "gui/title/minecraft.png",
 				"uv": [1, 45]
 			}, {
+				"class": "Image",
+				"align": ["center", "top"],
+				"margin": [0, 67],
+				"size": [98, 14],
+				"source": "gui/title/edition.png",
+				"uv": [0, 0]
+			}, {
 				"class": "Group",
+				"name": "main",
 				"align": ["center", "center"],
 				"margin": [0, -35],
 				"size": [248, 104],
@@ -42,6 +52,7 @@
 						"text": "Minecraft Realms"
 					}, {
 						"class": "TextButton",
+						"name": "options",
 						"align": ["left", "bottom"],
 						"margin": [24, 0],
 						"width": 98,
@@ -67,7 +78,7 @@
 					}
 				]
 			}, {
-				"class": "Text",
+				"class": "RichText",
 				"name": "version",
 				"align": ["left", "bottom"],
 				"margin": [2, 2]
@@ -78,6 +89,20 @@
 				"margin": [2, 0],
 				"padding": [0, 0, 2, 0],
 				"text": "Copyright Mojang AB. Do not distribute!"
+			}
+		]
+	}, {
+		"name": "option-menu",
+		"visible": false,
+		"background": true,
+		"components": [
+			{
+				"class": "TextButton",
+				"name": "done",
+				"align": ["center", "top"],
+				"margin": [0, 20],
+				"width": 200,
+				"text": "Done"
 			}
 		]
 	}

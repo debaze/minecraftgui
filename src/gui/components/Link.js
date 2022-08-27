@@ -8,13 +8,13 @@ import {TEXTURES, Font} from "../../index.js";
  * @constructor
  * @param	{array}		[padding=[0, 0, 0, 0]]	Padding
  * @param	{string}	[text=""]				Text string
- * @param	{string}	[textColor="white"]		Text color (since link text can't be formatted, the whole text will get this color)
+ * @param	{string}	[color="white"]			Text color (since link text can't be formatted, the whole text will get this color)
  * @param	{number}	[fontSize=1]			Font size multiplier
  */
-export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fontSize = 1}) {
+export function Link({padding = [0, 0, 0, 0], text = "", color = "white", fontSize = 1}) {
 	Component.call(this, ...arguments);
 
-	Object.assign(this, {padding, text, textColor, fontSize, hovered: false});
+	Object.assign(this, {padding, text, color, fontSize, hovered: false});
 
 	// Since the cannot be changed, it can be computed once
 	{
@@ -50,7 +50,7 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 		];
 
 		// Retrieve the text color from the color list
-		this.textColor = Font.colors[this.textColor];
+		this.color = Font.colors[this.color];
 	}
 
 	this.compute = () => {
@@ -85,15 +85,15 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			);
 		}
 
-		if (this.textColor) {
+		if (this.color) {
 			bctx.globalCompositeOperation = "source-atop";
-			bctx.fillStyle = this.textColor.foreground;
+			bctx.fillStyle = this.color.foreground;
 			bctx.fillRect(0, 0, tw, th);
 		}
 
 		ctx.drawImage(TextBuffer, x, y);
 
-		bctx.fillStyle = this.textColor.background;
+		bctx.fillStyle = this.color.background;
 		bctx.fillRect(0, 0, tw, th);
 
 		ctx.globalCompositeOperation = "destination-over";
@@ -111,10 +111,10 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 			uw = this.textSize[0] + fs,
 			uh = fs;
 
-		ctx.fillStyle = this.textColor.foreground;
+		ctx.fillStyle = this.color.foreground;
 		ctx.fillRect(ux, uy, uw, uh);
 
-		ctx.fillStyle = this.textColor.background;
+		ctx.fillStyle = this.color.background;
 		ctx.fillRect(ux + fs, uy + fs, uw, uh);
 	};
 

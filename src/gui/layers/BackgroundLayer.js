@@ -4,8 +4,8 @@ export const BackgroundLayer = {
 	canvas: document.createElement("canvas"),
 	init: function() {
 		this.resize();
-		this.canvas.className = "option-background";
-		this.canvas.style.visibility = "hidden";
+		this.canvas.className = "background";
+		this.hide();
 		this.canvas.width = Instance.window.max_width;
 		this.canvas.height = Instance.window.max_height;
 		this.ctx = this.canvas.getContext("2d");
