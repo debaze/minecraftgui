@@ -1,4 +1,5 @@
 import {Instance, TEXTURE_PATH, TEXTURES, Component, BackgroundLayer, Layer} from "./index.js";
+import {Group} from "./gui/Group.js";
 import {debounce, log, resize} from "./utils/index.js";
 
 export function Loader() {
@@ -50,6 +51,27 @@ export function Loader() {
 			for (const i in layer.components) {
 				let component = layer.components[i];
 
+				if (component.class === "Group") {
+					// Construct group components
+					let group = component;
+
+					for (let i in group.components) {
+						component = group.components[i];
+
+						if (component.class === "Group") {
+							log("system.error.group_inside_group");
+
+							continue;
+						}
+
+						group.components[i] = new Component[component.class](component);
+					}
+
+					layer.components[i] = new Group(group);
+
+					continue;
+				}
+
 				layer.components[i] = new Component[component.class](component);
 			}
 
@@ -58,8 +80,8 @@ export function Loader() {
 
 		addEventListener("resize", () => debounce(() => {
 			resize();
-			BackgroundLayer.resize();
-			BackgroundLayer.draw();
+
+			BackgroundLayer.resize().draw();
 		}, 50));
 
 		return Instance.gui.layers;

@@ -1,16 +1,18 @@
 import {Instance, BackgroundLayer, HoverLayer} from "../../index.js";
+import {Group} from "../Group.js";
 import {intersect} from "../../utils/index.js";
 
 /**
- * Layer constructor.
+ * Global Layer.
  * 
  * @constructor
  * @param	{string}	name													Layer name (must be unique)
  * @param	{array}		[size=[Instance.window.width, Instance.window.height]]	Width & height
- * @param	{boolean}	[visible=true]											Visibility state
+ * @param	{boolean}	[visible=true]											Determines the layer visibility state
  * @param	{boolean}	[background=false]										Indicates whether the layer has a background pattern preset
- * @param	{array}		[components=[]]											Component list (can be managed later with add())
+ * @param	{array}		[components=[]]											Component list
  * 
+ * @todo	Groups
  * @todo	Clickable components
  */
 export function Layer({name, size = [Instance.window.width, Instance.window.height], visible = true, background = false, components = []}) {
@@ -31,7 +33,7 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 		const {scale} = Instance.gui;
 		let component, x, y, w, h, hovered;
 
-		for (component of this.hoverableComponents) {
+		for (const component of this.hoverableComponents) {
 			({x, y} = component);
 			[w, h] = component.size;
 			hovered = intersect([e.x, e.y], [x, y, w, h]);
@@ -47,7 +49,7 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 		const {scale} = Instance.gui;
 		let component, x, y, w, h, hovered;
 
-		for (component of this.clickableComponents) {}
+		for (const component of this.clickableComponents) {}
 	});
 
 	const ctx = canvas.getContext("2d");
@@ -85,6 +87,7 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 	this.add = (...components) => {
 		for (const component of components) {
 			this.components.add(component);
+
 			component.layer = this;
 		}
 
@@ -123,6 +126,12 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 		let x, y, w, h;
 
 		for (const component of this.components) {
+			if (component instanceof Group) {
+				component.erase();
+
+				continue;
+			}
+
 			if (component.visible) {
 				({x, y} = component);
 				[w, h] = component.size;

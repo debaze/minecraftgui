@@ -13,7 +13,9 @@ export function log(id, formatters) {
 		}
 	}
 
-	console[types[+id.includes(".error.")]](message);
+	const splittedId = id.split(".").reverse()[0];
+
+	console[logTypes[+id.includes(".error.")]](`${splittedId}: ${message}`);
 };
 
-let types = ["log", "error"];
+const logTypes = ["log", "error"];

@@ -26,13 +26,15 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	 * Calculates the absolute component position from its alignment and its margin.
 	 */
 	this.computePosition = () => {
-		if (!this.layer) return log("system.error.cant_compute_unlayered_component");
+		const layer = this.layer ?? this.group?.layer;
+
+		if (!layer) return log("system.error.cant_compute_unlayered_component");
 
 		const {scale} = Instance.gui;
 		let [horizontal, vertical] = this.align,
 			[x, y] = this.margin,
-			w = this.layer.width / scale - this.size[0],
-			h = this.layer.height / scale - this.size[1];
+			w = layer.width / scale - this.size[0],
+			h = layer.height / scale - this.size[1];
 
 		if (horizontal === "right") x = w - x;
 		else if (horizontal === "center") x += w / 2;
@@ -51,9 +53,11 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	 * @param	{function}	callback	Callback function
 	 */
 	this.on = (event, callback) => {
-		const {layer} = this;
+		const layer = this.layer ?? this.group?.layer;
 
-		if (!layer) return log("system.error.event_on_unlayered_component");
+		if (!layer) return log("system.error.event_on_unlayered_component", {
+			"%s": this.constructor.name,
+		});
 
 		switch (event) {
 			case "hover":
@@ -73,9 +77,11 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	 * @param	{string}	event	Event name
 	 */
 	this.off = event => {
-		const {layer} = this;
+		const layer = this.layer ?? this.group?.layer;
 
-		if (!layer) return log("system.error.event_on_unlayered_component");
+		if (!layer) return log("system.error.event_on_unlayered_component", {
+			"%s": this.constructor.name,
+		});
 
 		switch (event) {
 			case "hover":

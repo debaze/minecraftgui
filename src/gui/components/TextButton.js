@@ -150,6 +150,8 @@ export function TextButton({width = INITIAL_WIDTH, text, color = "white", disabl
 			uv = this.disabled ? UV.DISABLED : UV.HOVERED;
 		let symbol;
 
+		TextBuffer.resize(tw, th);
+
 		// Draw the button texture
 		{
 			ctx.drawImage(
