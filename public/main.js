@@ -24,7 +24,6 @@ const
 		name: "mojang-loading-screen",
 		components: [
 			new Component.Image({
-				visible: false,
 				align: ["center", "center"],
 				margin: [-128, 0],
 				size: [256, 128],
@@ -32,7 +31,6 @@ const
 				scale: 0.5,
 			}),
 			new Component.Image({
-				visible: false,
 				align: ["center", "center"],
 				margin: [128, 0],
 				size: [256, 128],
@@ -44,7 +42,7 @@ const
 		],
 	});
 loadingScreen.canvas.style.zIndex = 10;
-loadingScreen.canvas.style.backgroundColor = new Color(Config.mojangBackground).hex;
+loadingScreen.canvas.style.backgroundColor = new Color(Instance.data.mojang_backgrounds[+Instance.settings.monochrome_logo]).hex;
 loadingScreen.compute().draw();
 
 loader.bind(progress);
@@ -57,10 +55,11 @@ const
 // Prepare the main menu before fading out the loading screen
 // Set the version number
 const version = mainMenu.get("version");
-version.text = `${Instance.name} ${Instance.version.join(".")}`;
+version.text = Instance.getName();
 version.format();
 
 // Show the main menu while the loading screen is faded out
 BackgroundLayer.draw();
 mainMenu.compute().draw();
-loadingScreen.toggle(2000, 500);
+// loadingScreen.toggle(2000, 500);
+loadingScreen.toggle();

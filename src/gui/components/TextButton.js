@@ -1,5 +1,6 @@
 import {Component} from "./Component.js";
-import {TEXTURES, Font, TextBuffer} from "../../index.js";
+import {TextBuffer} from "../buffers/index.js";
+import {TEXTURES, Font} from "../../index.js";
 
 const
 	INITIAL_WIDTH = 200,

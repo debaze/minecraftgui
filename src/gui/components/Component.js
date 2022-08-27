@@ -1,4 +1,4 @@
-import {GUI} from "../../index.js";
+import {Instance} from "../../index.js";
 import {log} from "../../utils/index.js";
 
 /**
@@ -28,7 +28,7 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	this.computePosition = () => {
 		if (!this.layer) return log("system.error.cant_compute_unlayered_component");
 
-		const {scale} = GUI;
+		const {scale} = Instance.gui;
 		let [horizontal, vertical] = this.align,
 			[x, y] = this.margin,
 			w = this.layer.width / scale - this.size[0],

@@ -1,4 +1,4 @@
-import {GUI, TEXTURE_PATH, TEXTURES, Component, BackgroundLayer, Layer} from "./index.js";
+import {Instance, TEXTURE_PATH, TEXTURES, Component, BackgroundLayer, Layer} from "./index.js";
 import {debounce, log, resize} from "./utils/index.js";
 
 export function Loader() {
@@ -17,15 +17,17 @@ export function Loader() {
 	 * @param	{...string}	Sources to load
 	 */
 	this.load = async (...sources) => {
+		const
+			now = performance.now(),
+			{logs} = this;
+		let image;
 		sources = new Set(sources);
-		let now = performance.now(),
-			image;
 
 		if (this.progress) {
 			const step = (100 - this.progress.percent) / sources.size;
 
 			for (const source of sources) {
-				await load(image, source, this.logs);
+				TEXTURES[source] = await load(image, source, this.logs);
 				this.progress.advance(step);
 			}
 
@@ -33,7 +35,7 @@ export function Loader() {
 			this.progress = null;
 		} else {
 			for (const source of sources) {
-				await load(image, source, this.logs);
+				TEXTURES[source] = await load(image, source, this.logs);
 			}
 		}
 
@@ -60,7 +62,7 @@ export function Loader() {
 			BackgroundLayer.draw();
 		}, 50));
 
-		return GUI.layers;
+		return Instance.gui.layers;
 	};
 
 	/**
@@ -84,6 +86,15 @@ export function Loader() {
 	};
 };
 
+/**
+ * Loads an image asynchronously and returns it.
+ * 
+ * @async
+ * @param	{mixed}		image	Placeholder variable for the Image element
+ * @param	{string}	source	Image path
+ * @param	{boolean}	logs	Determines whether to show load logs
+ * @returns	{Image}
+ */
 const load = async (image, source, logs) => {
 	image = new Image();
 	image.src = TEXTURE_PATH + source;
@@ -94,7 +105,7 @@ const load = async (image, source, logs) => {
 		console.error(`Could not load ${image.src}: the resource was not found.`);
 	}
 
-	TEXTURES[source] = image;
-
 	logs && console.log(`%c${source} loaded`, "color: #777; font-style: italic");
+
+	return image;
 };

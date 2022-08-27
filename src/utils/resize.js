@@ -1,4 +1,4 @@
-import {Instance, GUI, HoverLayer} from "../index.js";
+import {Instance, HoverLayer} from "../index.js";
 
 /**
  * Stretches the layers to the GUI size and scales them.
@@ -7,33 +7,35 @@ import {Instance, GUI, HoverLayer} from "../index.js";
  * - All the currently hovered components are cleared on the HoverLayer
  */
 export function resize() {
-	GUI.width = Math.ceil(innerWidth / 2) * 2;
-	GUI.height = Math.ceil(innerHeight / 2) * 2;
-	GUI.scale = GUI.preferredScale;
+	const {gui, window} = Instance;
+
+	window.width = Math.ceil(innerWidth / 2) * 2;
+	window.height = Math.ceil(innerHeight / 2) * 2;
+	gui.scale = gui.preferred_scale;
 
 	// Calculate the new scale
-	let i = GUI.preferredScale + 2;
+	let i = gui.preferred_scale + 2;
 	while (--i > 1) {
 		if (
-			GUI.width <= Instance.data.gui.default_width * i ||
-			GUI.height < Instance.data.gui.default_height * i
-		) GUI.scale = i - 1;
+			window.width <= window.default_width * i ||
+			window.height < window.default_height * i
+		) gui.scale = i - 1;
 	}
 	i = undefined;
 
 	// Erase the hovered components
 	HoverLayer.clearAllHovered();
 
-	const layers = Object.values(GUI.layers);
+	const layers = Object.values(gui.layers);
 
 	for (const layer of layers) {
 		layer.stretch().erase();
 	}
 
-	if (GUI.previousScale !== GUI.scale) {
-		GUI.previousScale = GUI.scale;
+	if (gui.previous_scale !== gui.scale) {
+		gui.previous_scale = gui.scale;
 
-		const transform = [GUI.scale, 0, 0, GUI.scale, 0, 0];
+		const transform = [gui.scale, 0, 0, gui.scale, 0, 0];
 
 		HoverLayer.ctx.setTransform(...transform);
 		for (const layer of layers) {

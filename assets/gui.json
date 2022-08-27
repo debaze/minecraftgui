@@ -20,7 +20,6 @@
 			}, {
 				"class": "Text",
 				"name": "version",
-				"visible": false,
 				"align": ["left", "bottom"],
 				"margin": [2, 2]
 			}, {

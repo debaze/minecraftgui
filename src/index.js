@@ -1,9 +1,7 @@
-import Config from "../public/config.js";
-import {HoverLayer} from "./gui/layers/index.js";
+import {HoverLayer} from "./gui/layers/HoverLayer.js";
 
 export {BackgroundLayer, HoverLayer, Layer} from "./gui/layers/index.js";
 export * as Component from "./gui/components/index.js";
-export {TextBuffer} from "./gui/buffers/index.js";
 export {Loader} from "./Loader.js";
 export {Color} from "./Color.js";
 export * as Utils from "./utils/index.js";
@@ -12,7 +10,6 @@ export const FONT_PATH = ASSET_PATH + "font/";
 export const LANGUAGE_PATH = ASSET_PATH + "lang/";
 export const TEXTURE_PATH = ASSET_PATH + "textures/";
 export const TEXTURES = new Set();
-export const GUI = {layers: {}};
 export const Font = {
 	symbolHeight: 8,
 	strikethroughY: 3,
@@ -35,18 +32,23 @@ export const Instance = {
 	name: "Minecraft",
 	version: [1, 19, 2],
 	data: {
-		gui: {
-			default_width: 320,
-			default_height: 240,
-			max_width: screen.width,
-			max_height: screen.height,
-		},
-		mojang_backgrounds: [0xef323d, 0x000000],
 		lang: null,
+		mojang_backgrounds: [0xef323d, 0x000000],
+	},
+	gui: {
+		layers: {},
+	},
+	window: {
+		default_width: 320,
+		default_height: 240,
+		max_width: screen.width,
+		max_height: screen.height,
+		width: null,
+		height: null,
 	},
 	settings: {},
 	init: function() {
-		document.title = `${this.name} ${this.version.join(".")}`;
+		document.title = this.getName();
 
 		HoverLayer.init();
 	},
@@ -60,24 +62,18 @@ export const Instance = {
 			}
 		}
 
-		// Setting: "Monochrome Logo"
-		{
-			const {monochrome_logo} = settings;
-
-			if (this.settings.monochrome_logo !== monochrome_logo) {
-				Config.mojangBackground = this.data.mojang_backgrounds[+monochrome_logo];
-			}
-		}
-
 		// Setting: "GUI Scale"
 		{
 			const {gui_scale} = settings;
 
 			if (this.settings.gui_scale !== gui_scale) {
-				GUI.preferredScale = gui_scale;
+				Instance.gui.preferred_scale = gui_scale;
 			}
 		}
 
 		Object.assign(this, {settings});
+	},
+	getName: function() {
+		return `${this.name} ${this.version.join(".")}`;
 	},
 };

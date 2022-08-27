@@ -1,4 +1,4 @@
-import {GUI} from "../index.js";
+import {Instance} from "../index.js";
 
 /**
  * Verifies if the point (ex, ey) is inside the rectangle of size (w, h) at the positioon (x, y) (top-left corner).
@@ -12,7 +12,7 @@ import {GUI} from "../index.js";
  * @returns	{boolean}
  */
 export function intersect([ex, ey], [x, y, w, h]) {
-	const {scale} = GUI;
+	const {scale} = Instance.gui;
 
 	ex /= scale;
 	ey /= scale;

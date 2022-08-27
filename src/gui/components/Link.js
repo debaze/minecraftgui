@@ -1,5 +1,6 @@
 import {Component} from "./Component.js";
-import {TEXTURES, Font, TextBuffer} from "../../index.js";
+import {TextBuffer} from "../buffers/index.js";
+import {TEXTURES, Font} from "../../index.js";
 
 /**
  * Link component.
@@ -97,6 +98,9 @@ export function Link({padding = [0, 0, 0, 0], text = "", textColor = "white", fo
 
 		ctx.globalCompositeOperation = "destination-over";
 		ctx.drawImage(TextBuffer, x + fs, y + fs);
+
+		// Reset the composite operation value
+		ctx.globalCompositeOperation = "source-over";
 	};
 
 	this.hover = ctx => {

@@ -1,19 +1,19 @@
-import {Instance, GUI, BackgroundLayer, HoverLayer} from "../../index.js";
+import {Instance, BackgroundLayer, HoverLayer} from "../../index.js";
 import {intersect} from "../../utils/index.js";
 
 /**
  * Layer constructor.
  * 
  * @constructor
- * @param	{string}	name							Layer name (must be unique)
- * @param	{array}		[size=[GUI.width, GUI.height]]	Width & height
- * @param	{boolean}	[visible=true]					Visibility state
- * @param	{boolean}	[background=false]				Indicates whether the layer has a background pattern preset
- * @param	{array}		[components=[]]					Component list (can be managed later with add())
+ * @param	{string}	name													Layer name (must be unique)
+ * @param	{array}		[size=[Instance.window.width, Instance.window.height]]	Width & height
+ * @param	{boolean}	[visible=true]											Visibility state
+ * @param	{boolean}	[background=false]										Indicates whether the layer has a background pattern preset
+ * @param	{array}		[components=[]]											Component list (can be managed later with add())
  * 
  * @todo	Clickable components
  */
-export function Layer({name, size = [GUI.width, GUI.height], visible = true, background = false, components = []}) {
+export function Layer({name, size = [Instance.window.width, Instance.window.height], visible = true, background = false, components = []}) {
 	let [width, height] = size;
 
 	Object.assign(this, {name, width, height, visible, background});
@@ -24,11 +24,11 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 
 	const canvas = document.createElement("canvas");
 	name && (canvas.classList.add(name));
-	canvas.width = Instance.data.gui.max_width;
-	canvas.height = Instance.data.gui.max_height;
+	canvas.width = Instance.window.max_width;
+	canvas.height = Instance.window.max_height;
 	canvas.style.opacity = +this.visible;
 	canvas.addEventListener("mousemove", e => {
-		const {scale} = GUI;
+		const {scale} = Instance.gui;
 		let component, x, y, w, h, hovered;
 
 		for (component of this.hoverableComponents) {
@@ -44,7 +44,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 		}
 	});
 	canvas.addEventListener("mousedown", e => {
-		const {scale} = GUI;
+		const {scale} = Instance.gui;
 		let component, x, y, w, h, hovered;
 
 		for (component of this.clickableComponents) {}
@@ -52,7 +52,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 
 	const ctx = canvas.getContext("2d");
 	ctx.imageSmoothingEnabled = false;
-	ctx.setTransform(GUI.scale, 0, 0, GUI.scale, 0, 0);
+	ctx.setTransform(Instance.gui.scale, 0, 0, Instance.gui.scale, 0, 0);
 
 	Object.assign(this, {canvas, ctx});
 
@@ -76,7 +76,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 		return this;
 	};
 
-	this.stretch = (width = GUI.width, height = GUI.height) => {
+	this.stretch = (width = Instance.window.width, height = Instance.window.height) => {
 		Object.assign(this, {width, height});
 
 		return this;
@@ -144,7 +144,7 @@ export function Layer({name, size = [GUI.width, GUI.height], visible = true, bac
 		return this;
 	};
 
-	GUI.layers[this.name] = this;
+	Instance.gui.layers[this.name] = this;
 
 	this.add(...components);
 

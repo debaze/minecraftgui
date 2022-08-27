@@ -414,5 +414,8 @@ export function Text({padding = [0, 0, 0, 0], background, text = "", dropShadow 
 			ctx.fillStyle = this.background.hex;
 			ctx.fillRect(x, y, w, h);
 		}
+
+		// Reset the composite operation value
+		ctx.globalCompositeOperation = "source-over";
 	};
 };
