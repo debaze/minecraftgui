@@ -7,10 +7,10 @@ import {TEXTURES} from "../../index.js";
  * @constructor
  * @param	{array}		size		Width & height
  * @param	{string}	[source]	Image path (must be loaded before draw)
- * @param	{array}		[uv=[0, 0]]	Image UVs
+ * @param	{array}		uv			Image UVs
  * @param	{number}	[scale=1]	Scale multiplier
  */
-export function Image({size, source, uv = [0, 0], scale = 1}) {
+export function Image({size, source, uv, scale = 1}) {
 	Component.call(this, ...arguments);
 
 	Object.assign(this, {size, source, uv, scale});

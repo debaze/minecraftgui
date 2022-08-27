@@ -7,6 +7,7 @@ export default {
 		"gui/title/minecraft.png",
 		"gui/options_background.png",
 		"gui/widgets.png",
+		"gui/accessibility.png",
 		"misc/white.png",
 		"large.png",
 	],

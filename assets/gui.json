@@ -7,7 +7,8 @@
 				"align": ["center", "top"],
 				"margin": [-59, 30],
 				"size": [156, 44],
-				"source": "gui/title/minecraft.png"
+				"source": "gui/title/minecraft.png",
+				"uv": [0, 0]
 			}, {
 				"class": "Image",
 				"align": ["center", "top"],
@@ -17,13 +18,52 @@
 				"uv": [1, 45]
 			}, {
 				"class": "Group",
+				"align": ["center", "center"],
+				"margin": [0, -35],
+				"size": [248, 104],
 				"components": [
 					{
 						"class": "TextButton",
-						"align": ["center", "center"],
-						"width": 74,
-						"text": "> Not bound <",
-						"color": "yellow"
+						"align": ["center", "top"],
+						"margin": [0, 0],
+						"width": 200,
+						"text": "Singleplayer"
+					}, {
+						"class": "TextButton",
+						"align": ["center", "top"],
+						"margin": [0, 24],
+						"width": 200,
+						"text": "Multiplayer"
+					}, {
+						"class": "TextButton",
+						"align": ["center", "top"],
+						"margin": [0, 48],
+						"width": 200,
+						"text": "Minecraft Realms"
+					}, {
+						"class": "TextButton",
+						"align": ["left", "bottom"],
+						"margin": [24, 0],
+						"width": 98,
+						"text": "Options..."
+					}, {
+						"class": "TextButton",
+						"align": ["right", "bottom"],
+						"margin": [24, 0],
+						"width": 98,
+						"text": "Quit Game"
+					}, {
+						"class": "ImageButton",
+						"align": ["left", "bottom"],
+						"width": 20,
+						"source": "gui/widgets.png",
+						"uv": [0, 106]
+					}, {
+						"class": "ImageButton",
+						"align": ["right", "bottom"],
+						"width": 20,
+						"source": "gui/accessibility.png",
+						"uv": [0, 0]
 					}
 				]
 			}, {

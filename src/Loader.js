@@ -59,7 +59,7 @@ export function Loader() {
 						component = group.components[i];
 
 						if (component.class === "Group") {
-							log("system.error.group_inside_group");
+							log("system.error.group.contains_group");
 
 							continue;
 						}

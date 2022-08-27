@@ -1,3 +1,4 @@
+import {Group} from "../Group.js";
 import {Instance} from "../../index.js";
 import {log} from "../../utils/index.js";
 
@@ -5,10 +6,10 @@ import {log} from "../../utils/index.js";
  * Global component.
  * 
  * @constructor
- * @param	{string}	name			Component name, used to select it from its layer (must be unique in the layer)
+ * @param	{string}	name
  * @param	{boolean}	[visible=true]	Visibility state
  * @param	{array}		align			Horizontal & vertical alignment
- * @param	{array}		[margin=[0, 0]]	X & Y offset relative to the window side
+ * @param	{array}		[margin=[0, 0]]	Offset relative to the window side
  */
 export function Component({name, visible = true, align, margin = [0, 0]}) {
 	if (
@@ -23,24 +24,68 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	Object.assign(this, {name, visible, align, margin});
 
 	/**
-	 * Calculates the absolute component position from its alignment and its margin.
+	 * Calculates the absolute component position from its alignment/margin.
 	 */
 	this.computePosition = () => {
-		const layer = this.layer ?? this.group?.layer;
+		const {layer} = this.group ?? this;
 
-		if (!layer) return log("system.error.cant_compute_unlayered_component");
+		if (!layer) return log("system.error.component.unlayered", {
+			"%s": this.constructor.name,
+		});
 
-		const {scale} = Instance.gui;
 		let [horizontal, vertical] = this.align,
-			[x, y] = this.margin,
-			w = layer.width / scale - this.size[0],
-			h = layer.height / scale - this.size[1];
+			[mx, my] = this.margin,
+			[w, h] = this.size,
+			x, y, ow, oh;
 
-		if (horizontal === "right") x = w - x;
-		else if (horizontal === "center") x += w / 2;
+		if (this.group) {
+			// Grouped component
+			const {group} = this;
+			ow = group.size[0];
+			oh = group.size[1];
 
-		if (vertical === "bottom") y = h - y;
-		else if (vertical === "center") y += h / 2;
+			({x, y} = group);
+		} else {
+			// Generic component
+			const {scale} = Instance.gui;
+			ow = layer.width / scale;
+			oh = layer.height / scale;
+
+			x = y = 0;
+		}
+
+		ow -= w;
+		oh -= h;
+
+		switch (horizontal) {
+			case "left":
+				x += mx;
+
+				break;
+			case "center":
+				x += ow / 2 + mx;
+
+				break;
+			case "right":
+				x += ow - mx;
+
+				break;
+		}
+
+		switch (vertical) {
+			case "top":
+				y += my;
+
+				break;
+			case "center":
+				y += oh / 2 + my;
+
+				break;
+			case "bottom":
+				y += oh - my;
+
+				break;
+		}
 
 		this.x = Math.floor(x);
 		this.y = Math.floor(y);
@@ -53,7 +98,7 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	 * @param	{function}	callback	Callback function
 	 */
 	this.on = (event, callback) => {
-		const layer = this.layer ?? this.group?.layer;
+		const {layer} = this.group ?? this;
 
 		if (!layer) return log("system.error.event_on_unlayered_component", {
 			"%s": this.constructor.name,
@@ -77,7 +122,7 @@ export function Component({name, visible = true, align, margin = [0, 0]}) {
 	 * @param	{string}	event	Event name
 	 */
 	this.off = event => {
-		const layer = this.layer ?? this.group?.layer;
+		const {layer} = this.group ?? this;
 
 		if (!layer) return log("system.error.event_on_unlayered_component", {
 			"%s": this.constructor.name,

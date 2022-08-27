@@ -123,11 +123,12 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 	};
 
 	this.erase = () => {
+		const {ctx} = this;
 		let x, y, w, h;
 
 		for (const component of this.components) {
 			if (component instanceof Group) {
-				component.erase();
+				component.erase(ctx);
 
 				continue;
 			}
@@ -136,7 +137,7 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 				({x, y} = component);
 				[w, h] = component.size;
 
-				this.ctx.clearRect(x, y, w, h);
+				ctx.clearRect(x, y, w, h);
 			}
 		}
 

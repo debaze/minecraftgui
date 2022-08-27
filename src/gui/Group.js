@@ -1,13 +1,55 @@
+import {Instance} from "../index.js";
+import {log} from "../utils/index.js";
+
 /**
  * @constructor
+ * @param	{string}	name
  * @param	{boolean}	[visible=true]	Determines the group visibility state
+ * @param	{array}		align			Horizontal & vertical alignment
+ * @param	{array}		[margin=[0, 0]]	Offset relative to the window side
+ * @param	{array}		size			Width & height
  * @param	{array}		[components=[]]	Component list
  */
-export function Group({visible = true, components = []}) {
+export function Group({name, visible = true, align, margin = [0, 0], size, components = []}) {
+	if (
+		typeof align !== "object" ||
+		align.length !== 2 ||
+		!["left", "center", "right"].includes(align[0]) ||
+		!["top", "center", "bottom"].includes(align[1])
+	) return log("system.error.group.invalid_alignment");
+
 	Object.assign(this, {
+		name,
 		visible,
+		align,
+		margin,
+		size,
 		components: new Set(components),
 	});
+
+	/**
+	 * Calculates the absolute group position from its alignment/margin.
+	 */
+	this.computePosition = () => {
+		const {layer} = this;
+
+		if (!layer) return log("system.error.group.unlayered");
+
+		const {scale} = Instance.gui;
+		let [horizontal, vertical] = this.align,
+			[x, y] = this.margin,
+			w = layer.width / scale - this.size[0],
+			h = layer.height / scale - this.size[1];
+
+		if (horizontal === "right") x = w - x;
+		else if (horizontal === "center") x += w / 2;
+
+		if (vertical === "bottom") y = h - y;
+		else if (vertical === "center") y += h / 2;
+
+		this.x = Math.floor(x);
+		this.y = Math.floor(y);
+	};
 
 	/**
 	 * Adds component(s) to the group.
@@ -58,6 +100,8 @@ export function Group({visible = true, components = []}) {
 	this.compute = () => {
 		if (!this.visible) return;
 
+		this.computePosition();
+
 		for (const component of this.components) {
 			component.visible && component.compute();
 		}
@@ -68,6 +112,7 @@ export function Group({visible = true, components = []}) {
 	/**
 	 * Draws the component(s) of the group on the layer.
 	 * 
+	 * @param	{CanvasRenderingContext2D}	ctx	Layer context
 	 * @returns	{self}
 	 */
 	this.draw = ctx => {
@@ -83,6 +128,7 @@ export function Group({visible = true, components = []}) {
 	/**
 	 * Erases the component(s) of the group on the layer.
 	 * 
+	 * @param	{CanvasRenderingContext2D}	ctx	Layer context
 	 * @returns	{self}
 	 */
 	this.erase = ctx => {
@@ -95,7 +141,7 @@ export function Group({visible = true, components = []}) {
 				({x, y} = component);
 				[w, h] = component.size;
 
-				this.layer.ctx.clearRect(x, y, w, h);
+				ctx.clearRect(x, y, w, h);
 			}
 		}
 

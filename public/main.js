@@ -28,6 +28,7 @@ const
 				margin: [-128, 0],
 				size: [256, 128],
 				source: "gui/title/mojangstudios.png",
+				uv: [0, 0],
 				scale: 0.5,
 			}),
 			new Component.Image({
