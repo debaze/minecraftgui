@@ -34,7 +34,5 @@ export function Image({size, source, uv, scale = 1}) {
 				w, h,
 			);
 		}
-
-		this.drawModifier(ctx);
 	};
 };
