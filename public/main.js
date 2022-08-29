@@ -1,5 +1,6 @@
 import {Instance, Loader, BackgroundLayer, HoverLayer, Layer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
 import Sources from "./sources.js";
+import {drawTitle} from "./title.js";
 
 const {symbols, colors} = await (await fetch("assets/font/default.json")).json();
 Object.assign(Font, {symbols, colors});
@@ -60,46 +61,9 @@ const version = mainMenu.get("version");
 version.text = Instance.getName();
 version.format();
 
-function titleModifier(ctx) {
-	const
-		{x, y, source} = this,
-		[w, h] = this.size,
-		[u, v] = this.uv,
-		offsets = [
-			[-1, 0],	// Left offset
-			[1, 0],		// Right offset
-			[0, 1],		// Top offset
-			[0, -1],	// Bottom offset
-		];
-
-	ctx.globalCompositeOperation = "destination-over";
-	for (const o of offsets) {
-		ctx.drawImage(
-			TEXTURES[source],
-			u, v,
-			w, h,
-			x + o[0], y + o[1],
-			w, h,
-		);
-	}
-
-	ctx.globalCompositeOperation = "source-in";
-	ctx.fillStyle = "#000";
-	ctx.fillRect(x - 1, y - 1, w + 1, h + 2);
-
-	ctx.globalCompositeOperation = "source-over";
-	ctx.drawImage(
-		TEXTURES[source],
-		u, v,
-		w, h,
-		x, y,
-		w, h,
-	);
-}
-let titleLeft = mainMenu.get("title_left"),
-	titleRight = mainMenu.get("title_right");
-// titleLeft.drawModifier = titleModifier;
-// titleRight.drawModifier = titleModifier;
+const title = mainMenu.get("title");
+title.minceraft = !Math.floor(Math.random() * 10000);
+title.draw = drawTitle;
 
 const optionButton = mainMenu.get("main").get("options");
 optionButton.on("click", () => {
