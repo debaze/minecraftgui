@@ -1,4 +1,4 @@
-import {HoverLayer} from "./gui/layers/HoverLayer.js";
+import {HoverLayer, Splash} from "./gui/layers/index.js";
 
 export {BackgroundLayer, HoverLayer, Layer} from "./gui/layers/index.js";
 export * as Component from "./gui/components/index.js";
@@ -27,6 +27,7 @@ export const Font = {
 		underline: "u",
 	},
 };
+export let splash;
 
 export const Instance = {
 	name: "Minecraft",
@@ -51,6 +52,8 @@ export const Instance = {
 		document.title = this.getName();
 
 		HoverLayer.init();
+
+		splash = new Splash();
 	},
 	setup: async function(settings) {
 		// Setting: "Language"

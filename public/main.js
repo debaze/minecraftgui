@@ -1,4 +1,4 @@
-import {Instance, Loader, BackgroundLayer, HoverLayer, Layer, Component, Color, Font, Utils, TEXTURES} from "../src/index.js";
+import {Instance, Loader, BackgroundLayer, HoverLayer, Layer, Component, Color, Font, Utils, TEXTURES, splash} from "../src/index.js";
 import Sources from "./sources.js";
 import {drawTitle} from "./title.js";
 
@@ -81,7 +81,9 @@ optionDone.on("click", () => {
 	mainMenu.toggle();
 });
 
+// splash.set("Soap and water!");
+
 // Show the main menu while the loading screen is faded out
 BackgroundLayer.draw();
 mainMenu.compute().draw();
-loadingScreen.toggle(2000, 500);
+loadingScreen.toggle();

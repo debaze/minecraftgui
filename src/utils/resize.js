@@ -1,4 +1,4 @@
-import {Instance, HoverLayer} from "../index.js";
+import {Instance, HoverLayer, splash} from "../index.js";
 
 /**
  * Stretches the layers to the GUI size and scales them.
@@ -38,6 +38,7 @@ export function resize() {
 		const transform = [gui.scale, 0, 0, gui.scale, 0, 0];
 
 		HoverLayer.ctx.setTransform(...transform);
+		splash.ctx.setTransform(...transform);
 		for (const layer of layers) {
 			layer.ctx.setTransform(...transform);
 		}
