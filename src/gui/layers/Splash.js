@@ -20,13 +20,13 @@ export function Splash() {
 		className: "splash",
 	});
 
-	canvas.style.backgroundColor = "#000";
+	canvas.style.background = "#000";
 	canvas.style.zIndex = 999;
 	ctx.imageSmoothingEnabled = false;
 
 	Object.assign(this, {
-		x: 312,
-		y: 80,
+		x: 311.5,
+		y: 68.5,
 		canvas,
 		ctx,
 		color: Font.colors.splash,
@@ -39,7 +39,6 @@ export function Splash() {
 			h = Font.symbolHeight,
 			i;
 		this.chars = [];
-		// this.fontSize = text.length * 0.7;
 		this.fontSize = 2.485;
 
 		for (const c of chars) {
@@ -62,46 +61,52 @@ export function Splash() {
 	this.draw = () => {
 		const
 			{bctx} = TextBuffer,
-			{symbols, symbolHeight} = Font,
+			{symbols} = Font,
+			sh = Font.symbolHeight,
 			{x, y} = this,
 			[tw, th] = this.size,
 			fs = this.fontSize;
-		let symbol;
+		let symbol, sw, uv;
 
 		console.log(this.chars.length, fs, tw);
-		// "Soap and water!" (15 chars/80) = 1.535
-		// "Awesome!" (8 chars/44) = 2.35
-		// ".party()" (8 chars/40) = 2.485
+		// "Soap and water!" (15 chars/80) = 1.535?
+		// "Awesome!" (8 chars/44) = [EXACTLY 2.24, EXACTLY 2.35]
+		// ".party()" (8 chars/40) = EXACTLY 2.485
+		// "l33t!" (5 chars/21) = EXACTLY 3.3
+		// "pls rt" (6 chars/29) = EXACTLY 2.9
 
-		TextBuffer.resize(tw * fs, th * fs);
+		TextBuffer.resize(tw, th);
+		ctx.translate(x, y);
+		ctx.rotate(-Math.PI / 9);
 
 		for (const c of this.chars) {
 			symbol = symbols[c.symbol];
+			sw = symbol.width;
+			({uv} = symbol);
 
 			bctx.drawImage(
 				TEXTURES["font/ascii.png"],
-				...symbol.uv,
-				symbol.width,
-				symbolHeight,
-				c.x * fs,
+				...uv,
+				sw,
+				sh,
+				c.x,
 				0,
-				symbol.width * fs,
-				symbolHeight * fs,
+				sw,
+				sh,
 			);
 		}
 
 		bctx.globalCompositeOperation = "source-atop";
-		bctx.fillStyle = this.color.background;
-		bctx.fillRect(0, 0, tw * fs, th * fs);
-
-		ctx.translate(x, y);
-		ctx.rotate(-Math.PI / 9);
-		ctx.drawImage(TextBuffer, fs, fs);
-
 		bctx.fillStyle = this.color.foreground;
 		bctx.fillRect(0, 0, tw * fs, th * fs);
 
-		ctx.drawImage(TextBuffer, 0, 0);
+		ctx.drawImage(TextBuffer, 0, 0, tw * fs, th * fs);
+
+		bctx.fillStyle = this.color.background;
+		bctx.fillRect(0, 0, tw * fs, th * fs);
+
+		ctx.globalCompositeOperation = "destination-over";
+		ctx.drawImage(TextBuffer, fs, fs, tw * fs, th * fs);
 	};
 
 	document.body.appendChild(canvas);

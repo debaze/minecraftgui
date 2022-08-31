@@ -81,7 +81,7 @@ optionDone.on("click", () => {
 	mainMenu.toggle();
 });
 
-// splash.set("Soap and water!");
+splash.set(".party()!");
 
 // Show the main menu while the loading screen is faded out
 BackgroundLayer.draw();
