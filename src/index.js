@@ -80,4 +80,6 @@ export const Instance = {
 	getName: function() {
 		return `${this.name} ${this.version.join(".")}`;
 	},
+	update: () => {},
+	render: () => {},
 };

@@ -1,6 +1,8 @@
 import {Instance, loop, Loader, BackgroundLayer, HoverLayer, Layer, Component, Color, Font, Utils, splash} from "../src/index.js";
 import Sources from "./sources.js";
 import {drawTitle} from "./title.js";
+import "./update.js";
+import "./render.js";
 
 const {symbols, colors} = await (await fetch("assets/font/default.json")).json();
 Object.assign(Font, {symbols, colors});
@@ -88,4 +90,4 @@ BackgroundLayer.draw();
 mainMenu.compute().draw();
 loadingScreen.toggle();
 
-// loop.unfreeze();
+loop.unfreeze();
