@@ -28,6 +28,7 @@ export const Font = {
 	},
 };
 export let splash;
+export {default as loop} from "./loop.js";
 
 export const Instance = {
 	name: "Minecraft",

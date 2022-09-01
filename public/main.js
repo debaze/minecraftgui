@@ -1,4 +1,4 @@
-import {Instance, Loader, BackgroundLayer, HoverLayer, Layer, Component, Color, Font, Utils, TEXTURES, splash} from "../src/index.js";
+import {Instance, loop, Loader, BackgroundLayer, HoverLayer, Layer, Component, Color, Font, Utils, splash} from "../src/index.js";
 import Sources from "./sources.js";
 import {drawTitle} from "./title.js";
 
@@ -81,9 +81,11 @@ optionDone.on("click", () => {
 	mainMenu.toggle();
 });
 
-splash.set(".party()!");
+// splash.set(".party()!");
 
 // Show the main menu while the loading screen is faded out
 BackgroundLayer.draw();
 mainMenu.compute().draw();
 loadingScreen.toggle();
+
+// loop.unfreeze();
