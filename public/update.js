@@ -1,5 +1,5 @@
 import {Instance} from "../src/index.js";
 
-Instance.update = () => {
-	return Instance;
+Instance.update = function() {
+	return this;
 };

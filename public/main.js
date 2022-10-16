@@ -12,7 +12,7 @@ Instance.init();
 await Instance.setup(settings);
 
 Utils.resize();
-BackgroundLayer.init().hide();
+BackgroundLayer.init();
 
 const loader = new Loader();
 await loader.load(...Sources.PRIMARY_SOURCES);
@@ -83,11 +83,11 @@ optionDone.on("click", () => {
 	mainMenu.toggle();
 });
 
-// splash.set(".party()!");
+splash.set(".party()!");
 
 // Show the main menu while the loading screen is faded out
 BackgroundLayer.draw();
 mainMenu.compute().draw();
 loadingScreen.toggle();
 
-loop.unfreeze();
+// loop.unfreeze();

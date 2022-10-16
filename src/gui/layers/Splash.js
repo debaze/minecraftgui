@@ -20,8 +20,7 @@ export function Splash() {
 		className: "splash",
 	});
 
-	canvas.style.background = "#000";
-	canvas.style.zIndex = 999;
+	canvas.style.zIndex = 1;
 	ctx.imageSmoothingEnabled = false;
 
 	Object.assign(this, {
