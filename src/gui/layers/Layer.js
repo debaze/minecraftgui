@@ -67,7 +67,7 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 	 * 
 	 * @param	{number}	[duration=0]	Duration value (ms)
 	 * @param	{number}	[delay=0]		Delay value (ms)
-	 * @returns	{self}
+	 * @return	{self}
 	 */
 	this.toggle = (duration = 0, delay = 0) => {
 		this.visible = !this.visible;
@@ -114,7 +114,7 @@ export function Layer({name, size = [Instance.window.width, Instance.window.heig
 	 * Returns the first component found with the given name.
 	 * 
 	 * @param	{string}	name
-	 * @returns	{Component}
+	 * @return	{Component}
 	 */
 	this.get = name => [...this.components].find(c => c.name === name);
 

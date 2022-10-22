@@ -115,7 +115,7 @@ export function Loader() {
  * @param	{mixed}		image	Placeholder variable for the Image element
  * @param	{string}	source	Image path
  * @param	{boolean}	logs	Determines whether to show load logs
- * @returns	{Image}
+ * @return	{Image}
  */
 const load = async (image, source, logs) => {
 	image = new Image();

@@ -9,7 +9,7 @@ import {Instance} from "../index.js";
  * @param	{number}	y
  * @param	{number}	w
  * @param	{number}	h
- * @returns	{boolean}
+ * @return	{boolean}
  */
 export function intersect([ex, ey], [x, y, w, h]) {
 	const {scale} = Instance.gui;

@@ -1,4 +1,10 @@
 {
+	"gui.done": "Done",
+	"menu.singleplayer": "Singleplayer",
+	"menu.multiplayer": "Multiplayer",
+	"menu.online": "Minecraft Realms",
+	"menu.options": "Options...",
+	"menu.quit": "Quit Game",
 	"system.error.component.unlayered":					"Operation cannot be performed onto an unlayered %s.",
 	"system.error.color.invalid_hex":					"Invalid Color hexadecimal value.",
 	"system.error.component.invalid_alignment":			"Invalid `align` property bound to %s.",

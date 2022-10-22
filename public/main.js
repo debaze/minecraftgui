@@ -45,6 +45,7 @@ const
 			progress,
 		],
 	});
+
 loadingScreen.canvas.style.zIndex = 10;
 loadingScreen.canvas.style.backgroundColor = new Color(Instance.data.mojang_backgrounds[+Instance.settings.monochrome_logo]).hex;
 loadingScreen.compute().draw();

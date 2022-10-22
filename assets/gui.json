@@ -28,32 +28,32 @@
 						"align": ["center", "top"],
 						"margin": [0, 0],
 						"width": 200,
-						"text": "Singleplayer"
+						"text": "menu.singleplayer"
 					}, {
 						"class": "TextButton",
 						"align": ["center", "top"],
 						"margin": [0, 24],
 						"width": 200,
-						"text": "Multiplayer"
+						"text": "menu.multiplayer"
 					}, {
 						"class": "TextButton",
 						"align": ["center", "top"],
 						"margin": [0, 48],
 						"width": 200,
-						"text": "Minecraft Realms"
+						"text": "menu.online"
 					}, {
 						"class": "TextButton",
 						"name": "options",
 						"align": ["left", "bottom"],
 						"margin": [24, 0],
 						"width": 98,
-						"text": "Options..."
+						"text": "menu.options"
 					}, {
 						"class": "TextButton",
 						"align": ["right", "bottom"],
 						"margin": [24, 0],
 						"width": 98,
-						"text": "Quit Game"
+						"text": "menu.quit"
 					}, {
 						"class": "ImageButton",
 						"align": ["left", "bottom"],
@@ -93,7 +93,7 @@
 				"align": ["center", "top"],
 				"margin": [0, 20],
 				"width": 200,
-				"text": "Done"
+				"text": "gui.done"
 			}
 		]
 	}

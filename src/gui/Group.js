@@ -55,7 +55,7 @@ export function Group({name, visible = true, align, margin = [0, 0], size, compo
 	 * Adds component(s) to the group.
 	 * 
 	 * @param	{...Component}	components	Component(s) to be added
-	 * @returns	{self}
+	 * @return	{self}
 	 */
 	this.add = (...components) => {
 		for (const component of components) {
@@ -71,7 +71,7 @@ export function Group({name, visible = true, align, margin = [0, 0], size, compo
 	 * Removes component(s) to the group.
 	 * 
 	 * @param	{...Component}	components	Component(s) to be removed
-	 * @returns	{self}
+	 * @return	{self}
 	 */
 	this.remove = (...components) => {
 		for (const component of components) {
@@ -88,14 +88,14 @@ export function Group({name, visible = true, align, margin = [0, 0], size, compo
 	 * Returns the first component found with the given name.
 	 * 
 	 * @param	{string}	name
-	 * @returns	{Component}
+	 * @return	{Component}
 	 */
 	this.get = name => [...this.components].find(c => c.name === name);
 
 	/**
 	 * Computes the component(s) of the group.
 	 * 
-	 * @returns	{self}
+	 * @return	{self}
 	 */
 	this.compute = () => {
 		if (!this.visible) return;
@@ -113,7 +113,7 @@ export function Group({name, visible = true, align, margin = [0, 0], size, compo
 	 * Draws the component(s) of the group on the layer.
 	 * 
 	 * @param	{CanvasRenderingContext2D}	ctx	Layer context
-	 * @returns	{self}
+	 * @return	{self}
 	 */
 	this.draw = ctx => {
 		if (!this.visible) return;
@@ -129,7 +129,7 @@ export function Group({name, visible = true, align, margin = [0, 0], size, compo
 	 * Erases the component(s) of the group on the layer.
 	 * 
 	 * @param	{CanvasRenderingContext2D}	ctx	Layer context
-	 * @returns	{self}
+	 * @return	{self}
 	 */
 	this.erase = ctx => {
 		if (!this.visible) return;

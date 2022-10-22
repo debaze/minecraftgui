@@ -7,7 +7,7 @@ export {Color} from "./Color.js";
 export * as Utils from "./utils/index.js";
 export const ASSET_PATH = "assets/";
 export const FONT_PATH = ASSET_PATH + "font/";
-export const LANGUAGE_PATH = ASSET_PATH + "lang/";
+export const LANG_PATH = ASSET_PATH + "lang/";
 export const TEXTURE_PATH = ASSET_PATH + "textures/";
 export const TEXTURES = new Set();
 export const Font = {
@@ -27,6 +27,8 @@ export const Font = {
 		underline: "u",
 	},
 };
+// Language data
+export let Lang = {};
 export let splash;
 export {default as loop} from "./loop.js";
 
@@ -62,7 +64,9 @@ export const Instance = {
 			const {language} = settings;
 
 			if (this.settings.language !== language) {
-				this.data.lang = await (await fetch(`${LANGUAGE_PATH}${language}.json`)).json();
+				this.data.lang = await (await fetch(`${LANG_PATH}${language}.json`)).json();
+
+				Lang = this.data.lang;
 			}
 		}
 

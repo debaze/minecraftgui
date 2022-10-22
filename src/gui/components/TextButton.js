@@ -1,6 +1,6 @@
 import {Component} from "./Component.js";
 import {TextBuffer} from "../buffers/index.js";
-import {TEXTURES, Font} from "../../index.js";
+import {TEXTURES, Lang, Font} from "../../index.js";
 
 const
 	INITIAL_WIDTH = 200,
@@ -13,7 +13,7 @@ const
 
 /**
  * TextButton component.
- * NOTE: The button width should not exceed 396.
+ * NOTE: The button width should not exceed 396u.
  * 
  * @constructor
  * @param	{number}	[width=INITIAL_WIDTH]
@@ -36,8 +36,10 @@ export function TextButton({width = INITIAL_WIDTH, text, color = "white", disabl
 
 	// Since the content cannot be changed, it can be computed once
 	{
-		// Multiple lines are not allowed
-		let chars = this.text.replaceAll("\n", " ").split(""),
+		// Retrieve the button text from the lang data and convert it to a string
+		const text = Lang[this.text] + [];
+
+		let chars = text.replaceAll("\n", " ").split(""),
 			w = 0,
 			h = Font.symbolHeight,
 			i;

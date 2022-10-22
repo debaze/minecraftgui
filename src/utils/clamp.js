@@ -4,7 +4,7 @@
  * @param	{number}	n
  * @param	{number}	min
  * @param	{number}	max
- * @returns	{number}
+ * @return	{number}
  */
 export function clamp(n, min, max) {
 	n < min && (n = min);

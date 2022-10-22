@@ -67,7 +67,7 @@ export function Splash() {
 			fs = this.fontSize;
 		let symbol, sw, uv;
 
-		console.log(this.chars.length, fs, tw);
+		// console.log(this.chars.length, fs, tw);
 		// "Soap and water!" (15 chars/80) = 1.535?
 		// "Awesome!" (8 chars/44) = [EXACTLY 2.24, EXACTLY 2.35]
 		// ".party()" (8 chars/40) = EXACTLY 2.485
